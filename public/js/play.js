@@ -10,7 +10,7 @@ const timerElement = document.getElementById("timer");
 const guessesElement = document.getElementById("guesses");
 const guessedElement = document.getElementById("guessed");
 
-const stopTimer = createTimer(timerElement, global.startedAt);
+let stopTimer = null;
 
 function updateGuesses(guesses) {
     guessesElement.textContent = guesses;
@@ -20,7 +20,7 @@ function updateGuessed(guessed) {
     guessedElement.textContent = guessed;
 }
 
-async function onClick(i) {
+async function onCardClick(i) {
     const card = cards[i];
     if (!canFlip || card.classList.contains("card-flip")) return;
     canFlip = false;
@@ -28,7 +28,7 @@ async function onClick(i) {
     const response = await fetchUrl({
         url: "/api/flip",
         body: {
-            sessionKey: global.sessionKey,
+            sessionId: global.sessionId,
             cardIndex: i,
         }
     });
@@ -48,6 +48,10 @@ async function onClick(i) {
 
     const data = response.data;
 
+    if (data.started_at) {
+        stopTimer = createTimer(timerElement, data.started_at);
+    }
+
     card.querySelector("span").textContent = data.emoji;
 
     card.classList.add("card-flip");
@@ -63,8 +67,6 @@ async function onClick(i) {
     } else {
         const lastCard = cards[lastCardIndex];
         if (data.success_flip) {
-            await delay(500);
-
             card.classList.add("card-guessed");
             lastCard.classList.add("card-guessed");
 
@@ -90,6 +92,11 @@ async function onClick(i) {
                 })();
             }
         } else {
+            playSound({
+                name: "fail_flip.mp3",
+                volume: .4,
+            });
+
             await delay(1200);
 
             card.classList.remove("card-flip");
@@ -115,7 +122,13 @@ async function onClick(i) {
     isFirstFlip = !isFirstFlip;
 }
 
+cards.forEach((card, i) => {
+    card.addEventListener("click", () => {
+        onCardClick(i);
+    });
+});
+
 // Remove session when closed
 window.addEventListener('unload', function () {
-    navigator.sendBeacon("/api/close", global.sessionKey);
+    navigator.sendBeacon("/api/close", global.sessionId);
 });

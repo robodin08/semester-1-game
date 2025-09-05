@@ -1,22 +1,30 @@
 import express from 'express';
 import nunjucks from 'nunjucks';
 import morgan from 'morgan';
-import crypto from 'node:crypto';
 
-import * as memory from "./memory.js";
+import Memory from './memory.js';
+import * as sessions from './sessions.js';
 
 const EXPIRE_SESSION = 60 * 60;
-
-
-// MAKE GAME IN CLASS
-
+const DIFFICULTIES = {
+    "easy": 16,
+    // "normal": 25,
+}
 
 const app = express();
 
 app.set("view engine", "njk");
-nunjucks.configure("views", {
+const env = nunjucks.configure("views", {
     autoescape: true,
     express: app,
+});
+
+env.addFilter("capitalize", (str) => {
+    if (!str) return "";
+    return str
+        .split(" ")
+        .map(word => word[0].toUpperCase() + word.slice(1))
+        .join(" ");
 });
 
 app.use(express.static("public"));
@@ -25,60 +33,47 @@ app.use(morgan("dev")); // after static so skip static events
 app.use(express.json());
 // app.use(express.urlencoded({ extended: false }));
 
-const sessions = new Map();
-
-app.get("/status", (req, res) => {
-    res.sendStatus(200);
-});
+app.get("/status", (req, res) => res.sendStatus(200));
 
 app.get("/", (req, res) => {
-    const cards = 16;
-    const levelString = memory.createLevel({ cards, shuffle: true });
+    res.render("home");
+});
 
-    const sessionKey = crypto.randomUUID();
+app.get("/play/:difficulty", (req, res) => {
+    const difficulty = req.params.difficulty;
 
-    const session = {
-        level_string: levelString,
-        guesses: 0, // how many attempts
-        guessed: 0, // how many guessed correctly
-        cards,
-        is_first_flip: true,
-        last_card_index: null,
-        started_at: Date.now(),
-        last_api_call: Date.now(),
-        expire: function () {
-            clearTimeout(session.expire_observer);
-            sessions.delete(sessionKey);
-        },
-        expire_observer: null,
+    const cards = DIFFICULTIES[difficulty];
+    if (!cards) {
+        return res.status(404).json({ message: `Difficulty "${difficulty}" does not exist.` }); // make error page
     }
 
-    session.expire_observer = setTimeout(session.expire, EXPIRE_SESSION * 1000);
+    const game = new Memory({ cards, shuffle: false });
 
-    sessions.set(sessionKey, session);
+    const session = {
+        game,
+        last_api_call: Date.now(),
+    }
 
-    res.render("index", {
+    const sessionId = sessions.createSession({ session, EXPIRE_SESSION });
+
+    res.render("play", {
         cards,
+        difficulty,
         global: {
-            sessionKey: sessionKey,
-            startedAt: session.started_at,
+            sessionId,
         }
     });
 });
 
 app.post("/api/close", express.text(), (req, res) => {
-    const session = sessions.get(req.body);
-    if (!session) {
-        return res.sendStatus(401).end();
-    }
-    session.expire();
-    res.sendStatus(200).end();
+    const exists = sessions.expireSession(req.body);
+    res.sendStatus(exists ? 200 : 401);
 });
 
 app.post("/api/flip", (req, res) => {
-    const { sessionKey, cardIndex } = req.body;
+    const { sessionId, cardIndex } = req.body;
 
-    const session = sessions.get(sessionKey);
+    const session = sessions.getSession(sessionId);
     if (!session) {
         return res.status(401).json({ message: "Session expired or does not exist.", refresh: true });
     }
@@ -89,42 +84,14 @@ app.post("/api/flip", (req, res) => {
     }
     session.last_api_call = now;
 
-    if (cardIndex < 0 || cardIndex >= session.cards) {
-        res.status(401).json({ message: "Invalid cardIndex." });
-        return;
+    const { status, data } = session.game.flip(cardIndex);
+    if (data.win) {
+        sessions.expireSession(sessionId);
+
+        console.log(now - session.game.started_at);
     }
 
-    const emojiLevel = memory.translateToEmojis(session.level_string);
-
-    const data = {
-        emoji: emojiLevel[cardIndex],
-    }
-
-    if (session.is_first_flip) {
-        session.last_card_index = cardIndex;
-    } else {
-        session.guesses += 1;
-
-        const success = emojiLevel[cardIndex] === emojiLevel[session.last_card_index];
-        if (success) {
-            session.guessed++;
-            data.success_flip = true;
-        };
-
-        if (session.guessed * 2 === session.cards) {
-            session.expire();
-            data.win = true;
-        }
-
-        session.last_card_index = null;
-    }
-
-    data.guesses = session.guesses;
-    data.guessed = session.guessed;
-
-    session.is_first_flip = !session.is_first_flip;
-
-    res.status(200).json(data);
+    res.status(status).json(data);
 });
 
 app.listen(3000, () => console.log("App is listening on port 3000"));
