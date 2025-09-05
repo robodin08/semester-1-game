@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Memory</title>
+        <link rel="stylesheet" href="/css/styles.css">
+    </head>
+    <body>
+        <h1>Memory</h1>
+        <div class="game-info">
+            <h3>Time:
+                <span id="timer">00:00</span>
+            </h3>
+            <h3>Guesses:
+                <span id="guesses">0</span>
+            </h3>
+            <h3>Guessed:
+                <span id="guessed">0</span>
+            </h3>
+        </div>
+        <main>
+            <div class="card-holder grid-{{ cards }}">
+                {% for i in range(0, cards) %}
+                    <button class="card" onclick="onClick({{ loop.index0 }})">
+                        <div class="card-inner">
+                            <div class="card-front">
+                                <img src="/assets/images/memoryCardBack.svg">
+                            </div>
+                            <div class="card-back">
+                                <span></span>
+                            </div>
+                        </div>
+                    </button>
+                {% else %}
+                    <h2>Error while loading</h2>
+                {% endfor %}
+            </div>
+        </main>
+        {% include "components/global.njk" %}
+        <script src="/js/components/utils.js"></script>
+        <script src="/js/components/fetch.js"></script>
+        <script src="/js/components/timer.js"></script>
+        <script src="/js/components/sound.js"></script>
+        <script src="/js/components/confetti.js"></script>
+
+        <script src="/js/script.js"></script>
+    </body>
+</html>
