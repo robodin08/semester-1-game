@@ -2,13 +2,15 @@ import express from 'express';
 import nunjucks from 'nunjucks';
 import morgan from 'morgan';
 
-import Memory from './memory.js';
+import Memory, { themeExists } from './memory.js';
 import * as sessions from './sessions.js';
 
 const EXPIRE_SESSION = 60 * 60;
 const DIFFICULTIES = {
-    "easy": 16,
-    // "normal": 25,
+    "easy": 4,
+    "normal": 16,
+    "hard": 30,
+    "extreme": 52,
 }
 
 const app = express();
@@ -39,15 +41,19 @@ app.get("/", (req, res) => {
     res.render("home");
 });
 
-app.get("/play/:difficulty", (req, res) => {
-    const difficulty = req.params.difficulty;
+app.get("/play/:theme/:difficulty", (req, res) => {
+    const { theme, difficulty } = req.params;
 
     const cards = DIFFICULTIES[difficulty];
     if (!cards) {
         return res.status(404).json({ message: `Difficulty "${difficulty}" does not exist.` }); // make error page
     }
 
-    const game = new Memory({ cards, shuffle: false });
+    if (!themeExists(theme)) {
+        return res.status(404).json({ message: `Theme "${theme}" does not exist.` });
+    }
+
+    const game = new Memory({ cards, theme, shuffle: true });
 
     const session = {
         game,

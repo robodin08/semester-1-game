@@ -1,6 +1,12 @@
-const emojis = Array.from("🤐🎶👌😅😐😒😍🤣😂💩😎😴😭🙌😊👍🤯💕😁🤬🥶😵🍕");
-
-console.log(emojis);
+const themes = {
+    animals: 30,
+    faces: 30,  
+    food: 30,
+    objects: 30,
+    plants: 30,
+    symbols: 30,
+    vehicles: 30,
+}
 
 function shuffleLevel(level) {
     let i = level.length, j, temp;
@@ -12,17 +18,24 @@ function shuffleLevel(level) {
     }
 }
 
+export function themeExists(theme) {
+    return themes[theme] ? true : false;
+}
+
 export default class Memory {
-    constructor({ cards = 4, shuffle = true } = { cards: 4, shuffle: true }) {
+    constructor({ cards = 4, theme = "emojis", shuffle = true } = { cards: 4, theme: "emojis", shuffle: true }) {
         if (cards % 2 !== 0) throw new Error("The cards must be even.");
 
         this.level = [];
+        this.imageIndexes = [];
 
         for (let i = 0; this.level.length < cards; i++) {
-            const emojiIndex = Math.floor(Math.random() * emojis.length);
-            if (!this.level.includes(emojiIndex)) {
-                this.level.push(emojiIndex);
-                this.level.push(emojiIndex);
+            const imageIndex = Math.floor(Math.random() * themes[theme]);
+            if (!this.level.includes(imageIndex)) {
+                this.level.push(imageIndex);
+                this.level.push(imageIndex);
+
+                this.imageIndexes.push(imageIndex);
             }
         }
 
@@ -30,9 +43,10 @@ export default class Memory {
             shuffleLevel(this.level);
         }
 
+        this.theme = theme,
         this.cards = cards;
         this.guesses = 0;
-        this.guessed = 0;
+        this.pairs = 0;
         this.is_first_flip = true;
         this.last_card_index = null;
         this.started_at = null;
@@ -43,10 +57,8 @@ export default class Memory {
             return { status: 401, data: { message: "Invalid cardIndex." } };
         }
 
-        const imageLevel = this.level.map((i => emojis[i]));
-
         const data = {
-            emoji: imageLevel[cardIndex],
+            image: `/assets/themes/${this.theme}/${this.level[cardIndex]}.svg`,
         }
 
         if (!this.started_at) {
@@ -62,12 +74,12 @@ export default class Memory {
 
             const success = this.level[cardIndex] === this.level[this.last_card_index];
             if (success) {
-                this.guessed++;
-                data.guessed = this.guessed;
+                this.pairs++;
+                data.pairs = this.pairs;
                 data.success_flip = true;
             };
 
-            if (this.guessed * 2 === this.cards) {
+            if (this.pairs * 2 === this.cards) {
                 data.win = true;
             }
 
@@ -79,77 +91,3 @@ export default class Memory {
         return { status: 200, data };
     }
 }
-
-// export function translateToIndexes(levelString) {
-//     const emojiIndexes = levelString.split(".");
-//     return emojiIndexes;
-// }
-
-// export function translateToEmojis(levelString) {
-//     const emojiIndexes = translateToIndexes(levelString);
-//     const level = emojiIndexes.map((emojiIndex => emojis[emojiIndex]));
-//     return level;
-// }
-
-// export function createLevel({ cards = 4, shuffle = true } = {}) {
-//     if (cards % 2 !== 0) throw new Error("The cards must be even.");
-
-//     const level = [];
-
-//     for (let i = 0; level.length < cards; i++) {
-//         const emojiIndex = Math.floor(Math.random() * emojis.length);
-//         if (!level.includes(emojiIndex)) {
-//             level.push(emojiIndex);
-//             level.push(emojiIndex);
-//         }
-//     }
-
-//     if (shuffle) {
-//         shuffleLevel(level);
-//     }
-
-//     const levelString = level.join(".");
-
-//     return levelString;
-// }
-
-
-
-// export function translateLevelString(levelString) {
-//     const emojiIndexs = levelString.split(".");
-
-//     console.log(emojiIndexs);
-// }
-
-// function shuffle(level) {
-//     let i = level.length, j, temp;
-//     while (--i > 0) {
-//         j = Math.floor(Math.random() * (i + 1));
-//         temp = level[j];
-//         level[j] = level[i];
-//         level[i] = temp;
-//     }
-// }
-
-// export function createLevel({ cardSets } = { cardSets: 4 }) {
-//     const level = [];
-
-//     for (let i = 0; level.length < cardSets * 2; i++) {
-//         const emoji = emojis[Math.floor(Math.random() * emojis.length)];
-//         if (!level.includes(emoji)) {
-//             level.push(emoji);
-//             level.push(emoji);
-//         }
-//     }
-
-//     shuffle(level);
-
-//     let levelString = "";
-//     for (let i = 0; i < level.length; i++) {
-//         const emojiIndex = emojis.indexOf(level[i]);
-//         levelString += emojiIndex + ".";
-//     }
-//     levelString = levelString.slice(0, -1); // cut off last dot
-
-//     return level;
-// }

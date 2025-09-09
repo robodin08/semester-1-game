@@ -12,8 +12,8 @@ difficultyButtons.forEach((button, i) => {
     });
 });
 
-difficultyButtons[0].click();
+difficultyButtons[1].click();
 
 playButton.addEventListener("click", () => {
-    window.location.href = "/play/" + (difficultyButtons[selectedDifficulty].textContent).toLocaleLowerCase();
+    window.location.href = "/play/faces/" + (difficultyButtons[selectedDifficulty].textContent).toLocaleLowerCase();
 });

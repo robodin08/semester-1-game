@@ -30,7 +30,3 @@ export function expireSession(sessionId) {
     }
     return false;
 }
-
-export function getSessions() {
-    return sessions.values();
-}

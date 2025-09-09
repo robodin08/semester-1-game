@@ -8,7 +8,7 @@ let lastCardIndex = null;
 
 const timerElement = document.getElementById("timer");
 const guessesElement = document.getElementById("guesses");
-const guessedElement = document.getElementById("guessed");
+const pairsElement = document.getElementById("pairs");
 
 let stopTimer = null;
 
@@ -16,8 +16,8 @@ function updateGuesses(guesses) {
     guessesElement.textContent = guesses;
 }
 
-function updateGuessed(guessed) {
-    guessedElement.textContent = guessed;
+function updatePairs(pairs) {
+    pairsElement.textContent = pairs;
 }
 
 async function onCardClick(i) {
@@ -52,7 +52,7 @@ async function onCardClick(i) {
         stopTimer = createTimer(timerElement, data.started_at);
     }
 
-    card.querySelector("span").textContent = data.emoji;
+    card.querySelector("#image").src = data.image;
 
     card.classList.add("card-flip");
 
@@ -67,10 +67,10 @@ async function onCardClick(i) {
     } else {
         const lastCard = cards[lastCardIndex];
         if (data.success_flip) {
-            card.classList.add("card-guessed");
-            lastCard.classList.add("card-guessed");
+            card.classList.add("card-pairs");
+            lastCard.classList.add("card-pairs");
 
-            updateGuessed(data.guessed);
+            updatePairs(data.pairs);
 
             playSound({
                 name: "success_flip.mp3",

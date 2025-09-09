@@ -9,14 +9,14 @@
     <body>
         <h1>Memory</h1>
         <div class="game-info">
+            <h3>Pairs:
+                <span id="pairs">0</span>
+            </h3>
             <h3>Time:
                 <span id="timer">00:00.0</span>
             </h3>
             <h3>Guesses:
                 <span id="guesses">0</span>
-            </h3>
-            <h3>Guessed:
-                <span id="guessed">0</span>
             </h3>
         </div>
         <main>
@@ -27,8 +27,10 @@
                             <div class="card-front">
                                 <img src="/assets/images/memoryCardBack.svg">
                             </div>
-                            <div class="card-back">
-                                <span></span>
+                            <div
+                                class="card-back">
+                                {# <span></span> #}
+                                <img id="image">
                             </div>
                         </div>
                     </button>

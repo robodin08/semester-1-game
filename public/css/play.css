@@ -44,6 +44,20 @@ main {
   row-gap: 2rem;
 }
 
+.card-holder.grid-30 {
+  grid-template-columns: repeat(6, 7rem);
+  grid-template-rows: repeat(5, 7rem);
+  column-gap: 2rem;
+  row-gap: 2rem;
+}
+
+.card-holder.grid-52 {
+  grid-template-columns: repeat(13, 7rem);
+  grid-template-rows: repeat(4, 7rem);
+  column-gap: 2rem;
+  row-gap: 2rem;
+}
+
 .card {
   background-color: transparent;
   cursor: pointer;
@@ -82,13 +96,20 @@ main {
 }
 
 .card-back {
+  display: flex;
   background-color: white;
   color: white;
   transform: rotateY(180deg);
-  font-size: 5.5rem;
+  justify-content: center;
+  align-items: center;
 }
 
-.card-guessed {
+.card-back img {
+  width: 80%;
+  height: 80%;
+}
+
+.card-pairs {
   transform: scale(.9);
   transition: all .5s;
 }
