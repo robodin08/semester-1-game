@@ -1,89 +1,89 @@
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-    background-color: antiquewhite;
-    text-align: center;
-    font-family: sans-serif;
-    margin: 2rem;
+  background-color: antiquewhite;
+  text-align: center;
+  font-family: sans-serif;
+  margin: 2rem;
 }
 
 main {
-    margin-top: 2rem;
+  margin-top: 2rem;
 }
 
 .difficulties {
-    margin: 2rem;
-    display: grid;
-    width: min-content;
-    margin-left: auto;
-    margin-right: auto;
-    grid-template-columns: repeat(4, 15rem);
-    grid-template-rows: 15rem;
-    column-gap: 3rem;
-    row-gap: 3rem;
+  margin: 2rem;
+  display: grid;
+  width: min-content;
+  margin-left: auto;
+  margin-right: auto;
+  grid-template-columns: repeat(4, 15rem);
+  grid-template-rows: 15rem;
+  column-gap: 3rem;
+  row-gap: 3rem;
 }
 
 .card-difficulty {
-    cursor: pointer;
-    font-size: 2.8rem;
-    font-weight: bold;
-    border: 1rem solid;
-    color: white;
-    border-radius: .5rem;
-    box-shadow: 0 .25rem .5rem 0 rgba(0, 0, 0, 0.2);
-    transition: all .2s;
+  cursor: pointer;
+  font-size: 2.8rem;
+  font-weight: bold;
+  border: 1rem solid;
+  color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.25rem 0.5rem 0 rgba(0, 0, 0, 0.2);
+  transition: all 0.2s;
 }
 
 .card-difficulty:hover {
-    scale: 1.03;
+  scale: 1.03;
 }
 
 .card-difficulty.selected {
-    outline: 0.5rem solid gold;
-    scale: 1.05;
-    cursor: auto;
+  outline: 0.5rem solid gold;
+  scale: 1.05;
+  cursor: auto;
 }
 
 .card-easy {
-    background-color: chartreuse;
+  background-color: chartreuse;
 }
 
 .card-normal {
-    background-color: yellow;
+  background-color: yellow;
 }
 
 .card-hard {
-    background-color: red;
+  background-color: red;
 }
 
 .card-extreme {
-    background-color: darkred;
+  background-color: darkred;
 }
 
 .card-play {
-    cursor: pointer;
-    width: 12rem;
-    height: 6rem;
-    background-color: purple;
-    color: white;
-    border: none;
-    font-size: 4rem;
-    font-weight: bold;
-    box-shadow: 0 .25rem .5rem 0 rgba(0, 0, 0);
-    transition: all .2s;
-    border-radius: .5rem;
+  cursor: pointer;
+  width: 12rem;
+  height: 6rem;
+  background-color: purple;
+  color: white;
+  border: none;
+  font-size: 4rem;
+  font-weight: bold;
+  box-shadow: 0 0.25rem 0.5rem 0 rgba(0, 0, 0);
+  transition: all 0.2s;
+  border-radius: 0.5rem;
 }
 
 .card-play:hover {
-    scale: .98;
-    box-shadow: 0 .125rem .25rem 0 rgba(0, 0, 0);
+  scale: 0.98;
+  box-shadow: 0 0.125rem 0.25rem 0 rgba(0, 0, 0);
 }
 
 .card-play:active {
-    scale: .96;
-    box-shadow: none;
+  scale: 0.96;
+  box-shadow: none;
 }

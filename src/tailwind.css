@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@layer components {
+    .theme-btn {
+        @apply flex flex-col items-center justify-center text-white font-bold text-lg rounded-lg shadow-lg aspect-square hover:scale-105 transition-transform duration-200 cursor-pointer;
+    }
+
+    .difficulty-btn {
+        @apply text-white font-bold text-xl rounded-lg shadow aspect-square hover:scale-105 transition-transform duration-200 cursor-pointer;
+    }
+
+    .card-play {
+        @apply bg-yellow-400 text-white font-extrabold text-2xl md:text-3xl py-4 px-12 rounded-xl shadow-lg hover:scale-105 transition-transform duration-200 cursor-pointer;
+    }
+
+    .selected {
+        @apply outline-4 outline-yellow-400 cursor-default scale-105;
+    }
+}
