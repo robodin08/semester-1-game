@@ -27,13 +27,12 @@
   <main>
     <div class="card-holder grid-{{ cards }}">
       {% for i in range(0, cards) %}
-      <button class="card">
+      <button id="memory-card" class="card">
         <div class="card-inner">
           <div class="card-front">
             <img src="/assets/images/memoryCardBack.svg" />
           </div>
           <div class="card-back">
-            {# <span></span> #}
             <img id="image" />
           </div>
         </div>

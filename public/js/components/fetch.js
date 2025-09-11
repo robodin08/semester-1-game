@@ -26,15 +26,11 @@ async function fetchUrl({
       data = null;
     }
 
-    if (!response.ok) {
-      return {
-        success: false,
-        status: response.status,
-        error: data || response.statusText,
-      };
-    }
-
-    return { success: true, data };
+    return {
+      success: response.ok,
+      status: response.status,
+      data: data || response.statusText,
+    };
   } catch (error) {
     console.error('Network error:', error.message);
     return { success: false, error: error.message };

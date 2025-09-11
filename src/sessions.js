@@ -1,17 +1,13 @@
 import crypto from 'node:crypto';
 
+import config from './config.js';
+
 const sessions = new Map();
 
-export function createSession({ session = {}, expire = 60 }) {
+export function createSession({ session = {} }) {
   const sessionId = crypto.randomUUID();
 
-  function expireSession() {
-    clearTimeout(session._expire_observer);
-    sessions.delete(sessionId);
-  }
-
-  session.expire = expireSession;
-  session._expire_observer = setTimeout(session.expire, expire * 1000);
+  session._last_interaction = Date.now();
 
   sessions.set(sessionId, session);
 
@@ -19,14 +15,22 @@ export function createSession({ session = {}, expire = 60 }) {
 }
 
 export function getSession(sessionId) {
-  return sessions.get(sessionId);
+  const session = sessions.get(sessionId);
+  if (session) session._last_interaction = Date.now();
+  return session;
 }
 
 export function expireSession(sessionId) {
-  const session = getSession(sessionId);
-  if (session) {
-    session.expire();
-    return true;
-  }
-  return false;
+  return sessions.delete(sessionId);
 }
+
+function expireInactiveSessions() {
+  const now = Date.now();
+  sessions.forEach((session, sessionId) => {
+    if (now - session._last_interaction > config.sessions.expire) {
+      expireSession(sessionId);
+    }
+  });
+}
+
+setInterval(expireInactiveSessions, config.sessions.delay);

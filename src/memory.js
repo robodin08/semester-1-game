@@ -1,13 +1,5 @@
-export const themes = {
-  animals: { color: "bg-emerald-400", items: 30 },
-  faces: { color: "bg-sky-400", items: 30 },
-  food: { color: "bg-amber-400", items: 30 },
-  objects: { color: "bg-violet-500", items: 30 },
-  plants: { color: "bg-lime-400", items: 30 },
-  symbols: { color: "bg-pink-400", items: 30 },
-  vehicles: { color: "bg-orange-400", items: 30 },
-  activities: { color: "bg-indigo-500", items: 30 },
-};
+import config from "./config.js";
+import createError from "./error.js";
 
 function shuffleLevel(level) {
   let i = level.length,
@@ -21,24 +13,32 @@ function shuffleLevel(level) {
   }
 }
 
-export function themeExists(theme) {
-  return themes[theme] ? true : false;
+function themeExists(theme) {
+  return config.game.themes[theme] ? true : false;
+}
+
+function difficultyExists(difficulty) {
+  return config.game.difficulties[difficulty] ? true : false;
 }
 
 export default class Memory {
   constructor(
-    { cards = 4, theme = 'faces', shuffle = true } = {
-      cards: 4,
+    { difficulty = 'normal', theme = 'faces', shuffle = true } = {
+      difficulty: 'normal',
       theme: 'faces',
       shuffle: true,
     }
   ) {
-    if (cards % 2 !== 0) throw new Error('The cards must be even.');
+    if (!difficultyExists(difficulty)) throw createError(404, `Difficulty "${difficulty}" does not exist.`)
+    if (!themeExists(theme)) throw createError(404, `Theme "${theme}" does not exist.`);
+
+    const cards = config.game.difficulties[difficulty].cards;
+    const themeItems = config.game.themes[theme].items;
 
     this.level = [];
 
     for (let i = 0; this.level.length < cards; i++) {
-      const imageIndex = Math.floor(Math.random() * themes[theme].items);
+      const imageIndex = Math.floor(Math.random() * themeItems);
       if (!this.level.includes(imageIndex)) {
         this.level.push(imageIndex);
         this.level.push(imageIndex);
@@ -58,9 +58,7 @@ export default class Memory {
   }
 
   flip(cardIndex) {
-    if (cardIndex < 0 || cardIndex >= this.cards) {
-      return { status: 401, data: { message: 'Invalid cardIndex.' } };
-    }
+    if (cardIndex < 0 || cardIndex >= this.cards) throw createError(401, 'Invalid cardIndex.');
 
     const data = {
       image: `/assets/themes/${this.theme}/${this.level[cardIndex]}.svg`,
@@ -94,6 +92,6 @@ export default class Memory {
 
     this.is_first_flip = !this.is_first_flip;
 
-    return { status: 200, data };
+    return data;
   }
 }

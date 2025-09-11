@@ -5,21 +5,48 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Memory</title>
-  <link rel="stylesheet" href="/css/home.css" />
+
+  <link rel="stylesheet" href="/css/styles.css">
+
+  <!-- Icons -->
+  <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/assets/icons/favicon-64x64.png" sizes="64x64" type="image/png">
+  <link rel="icon" href="/assets/icons/favicon-32x32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="/assets/icons/favicon-16x16.png" sizes="16x16" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon-180x180.png" sizes="180x180">
+  <link rel="mask-icon" href="/assets/icons/favicon.svg" color="#5bbad5">
+  <meta name="theme-color" content="#ffffff">
 </head>
 
-<body>
-  <h1>Memory</h1>
-  <main>
-    <h2>Choose you difficulty</h2>
-    <div class="difficulties">
-      <button class="card-difficulty card-easy">Easy</button>
-      <button class="card-difficulty card-normal">Normal</button>
-      <button class="card-difficulty card-hard">Hard</button>
-      <button class="card-difficulty card-extreme">Extreme</button>
+<body class="bg-amber-100 flex flex-col items-center justify-start p-4">
+  <h1 class="text-4xl md:text-5xl font-extrabold text-blue-400 mt-4">Memory</h1>
+  <main class="flex flex-col items-center mt-8 w-full max-w-lg">
+    <h2 class="text-2xl md:text-3xl text-blue-300 font-bold mb-6 text-center">Choose a Theme</h2>
+
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full mb-10">
+      {% for theme in themes %}
+      <button class="theme-btn {{theme.color}}" data-theme="{{theme.name}}">
+        <img src="/assets/themes/{{theme.name}}/0.svg" class="w-12 h-12 mx-auto mb-2">
+        {{theme.name | capitalize}}
+      </button>
+      {% endfor %}
     </div>
-    <button class="card-play">PLAY</button>
+
+    <h2 class="text-2xl md:text-3xl text-blue-300 font-bold mb-6 text-center">Choose a Difficulty</h2>
+
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full mb-8">
+      {% for difficulty in difficulties %}
+      <button class="difficulty-btn {{difficulty.color}}" data-difficulty="{{difficulty.name}}">
+        {{difficulty.name | capitalize}}
+      </button>
+      {% endfor %}
+    </div>
+
+    <button id="playButton" class="card-play">
+      PLAY
+    </button>
   </main>
+
   <script src="/js/home.js"></script>
 </body>
 

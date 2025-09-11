@@ -1,28 +1,36 @@
-async function playSound({ name, volume = 1, startAt = 0 }) {
-  // relative from /assets/sounds
-  return new Promise((resolve) => {
-    try {
-      const audioElement = new Audio('/assets/sounds/' + name);
-      audioElement.volume = volume;
-      audioElement.currentTime = startAt;
+class CreateSound {
+  constructor({ url, volume = 1, startAt = 0 }) {
+    this.url = url;
+    this.volume = volume;
+    this.startAt = startAt;
 
-      audioElement.addEventListener('canplaythrough', async () => {
-        try {
-          await audioElement.play();
-          resolve(true);
-        } catch (playError) {
-          console.error('Audio play error:', playError);
-          resolve(false);
-        }
-      });
+    // Preload
+    this.baseAudio = new Audio(url);
+    this.baseAudio.preload = "auto";
+    this.ready = new Promise((resolve, reject) => {
+      this.baseAudio.addEventListener("canplaythrough", () => resolve(true), { once: true });
+      this.baseAudio.addEventListener("error", (e) => reject(e), { once: true });
+    });
+  }
 
-      audioElement.addEventListener('error', (e) => {
-        console.error('Audio load error:', e);
+  async play({ volume, startAt } = {}) {
+    await this.ready;
+
+    const audioElement = this.baseAudio.cloneNode(true);
+    audioElement.volume = volume ?? this.volume;
+    audioElement.currentTime = startAt ?? this.startAt;
+
+    return new Promise((resolve) => {
+      audioElement.addEventListener("ended", () => resolve(true), { once: true });
+      audioElement.addEventListener("error", (e) => {
+        console.error("Audio play error:", e);
+        resolve(false);
+      }, { once: true });
+
+      audioElement.play().catch((err) => {
+        console.error("Audio play error:", err);
         resolve(false);
       });
-    } catch (err) {
-      console.error('Unexpected error:', err);
-      resolve(false);
-    }
-  });
+    });
+  }
 }

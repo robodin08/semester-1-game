@@ -1,9 +1,5 @@
 {
   "files.associations": {
     "tailwind.css": "tailwindcss"
-  },
-  "tailwindCSS.includeLanguages": {
-    "html": "html",
-    "javascript": "javascript"
   }
 }

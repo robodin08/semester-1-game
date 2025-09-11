@@ -1,3 +1,4 @@
-node_modules/
-nodemon.json
-dev/
+.vscode/
+/node_modules/
+/dev/
+/public/css/styles.css

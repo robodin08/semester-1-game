@@ -1,4 +1,4 @@
-const cards = document.querySelectorAll('.card');
+const cards = document.querySelectorAll('#memory-card');
 
 const global = window.GLOBAL;
 
@@ -9,6 +9,11 @@ let lastCardIndex = null;
 const timerElement = document.getElementById('timer');
 const guessesElement = document.getElementById('guesses');
 const pairsElement = document.getElementById('pairs');
+
+const winSound = new CreateSound({ url: "/assets/sounds/win.mp3", startAt: .16 });
+const failFlipSound = new CreateSound({ url: "/assets/sounds/fail_flip.mp3", volume: .4 });
+const cardFlipSound = new CreateSound({ url: "/assets/sounds/card_flip.mp3", volume: .6, startAt: .14 });
+const successSound = new CreateSound({ url: "/assets/sounds/success_flip.mp3", volume: .4, startAt: .056 });
 
 let stopTimer = null;
 
@@ -36,12 +41,12 @@ async function onCardClick(i) {
   console.log(response);
 
   if (!response.success) {
-    if (response.error.refresh) {
+    if (response.data.refresh) {
       return window.location.reload();
     }
 
     // Display error
-    console.error('Fetch Error:', response.error || 'Unknown error');
+    console.error('Fetch Error:', response.message || 'Unknown error');
     canFlip = true;
     return;
   }
@@ -52,15 +57,13 @@ async function onCardClick(i) {
     stopTimer = createTimer(timerElement, data.started_at);
   }
 
-  card.querySelector('#image').src = data.image;
+  if (!card.querySelector('#image').src) {
+    card.querySelector('#image').src = data.image;
+  }
 
   card.classList.add('card-flip');
 
-  playSound({
-    name: 'card_flip.mp3',
-    volume: 0.6,
-    startAt: 0.14,
-  });
+  cardFlipSound.play();
 
   if (isFirstFlip) {
     lastCardIndex = i;
@@ -72,46 +75,27 @@ async function onCardClick(i) {
 
       updatePairs(data.pairs);
 
-      playSound({
-        name: 'success_flip.mp3',
-        volume: 0.4,
-        startAt: 0.056,
-      });
+      successSound.play();
 
       if (data.win) {
         console.log('LEVEL COMPLETED');
         stopTimer();
 
         (async () => {
-          await playSound({
-            name: 'win.mp3',
-            startAt: 0.16,
-          });
+          await winSound();
 
           fireConfettiCannon();
         })();
       }
     } else {
-      playSound({
-        name: 'fail_flip.mp3',
-        volume: 0.4,
-      });
+      failFlipSound.play();
 
       await delay(1200);
 
       card.classList.remove('card-flip');
       lastCard.classList.remove('card-flip');
 
-      playSound({
-        name: 'card_flip.mp3',
-        volume: 0.6,
-        startAt: 0.14,
-      });
-
-      // await waitForTransitionEnd(card.querySelector(".card-inner"));
-
-      // card.querySelector("span").textContent = "";
-      // lastCard.querySelector("span").textContent = "";
+      cardFlipSound.play();
     }
 
     updateGuesses(data.guesses);

@@ -1,0 +1,16 @@
+{
+    "watch": [
+        "src",
+        "public",
+        "views"
+    ],
+    "ignore": [
+        "public/css/styles.css",
+        "**/node_modules/**"
+    ],
+    "ext": "js,json,html,njk,css",
+    "exec": "npm run build:tailwind && npm start",
+    "env": {
+        "NODE_ENV": "development"
+    }
+}

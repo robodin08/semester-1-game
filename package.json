@@ -1,9 +1,8 @@
 {
   "scripts": {
     "start": "node src/app.js",
-    "dev": "nodemon",
-    "build:tailwind": "npx tailwindcss -i src/tailwind.css -o public/css/tailwind.css",
-    "watch:tailwind": "npx tailwindcss -i src/tailwind.css -o public/css/tailwind.css --watch"
+    "build:tailwind": "npx tailwindcss -i src/tailwind.css -o public/css/styles.css",
+    "dev": "nodemon"
   },
   "type": "module",
   "dependencies": {

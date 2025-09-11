@@ -2,16 +2,10 @@ import express from 'express';
 import nunjucks from 'nunjucks';
 import morgan from 'morgan';
 
-import Memory, { themes, themeExists } from './memory.js';
+import Memory from './memory.js';
 import * as sessions from './sessions.js';
-
-const EXPIRE_SESSION = 60 * 60;
-const DIFFICULTIES = {
-  easy:    { color: "bg-emerald-400", cards: 4 },
-  normal:  { color: "bg-sky-500", cards: 16 },
-  hard:    { color: "bg-rose-500", cards: 30 },
-  extreme: { color: "bg-purple-900", cards: 52 },
-};
+import config from './config.js';
+import createError from './error.js';
 
 const app = express();
 
@@ -35,51 +29,65 @@ app.use(morgan('dev')); // after static so skip static events
 app.use(express.json());
 // app.use(express.urlencoded({ extended: false }));
 
+
+
+app.get('/new/play/:theme/:difficulty', (req, res, next) => {
+  try {
+    const { theme, difficulty } = req.params;
+
+    const game = new Memory({ difficulty, theme, shuffle: true });
+
+    const session = {
+      game,
+    };
+
+    const sessionId = sessions.createSession({ session });
+
+    res.render('newplay', {
+      cards: game.cards,
+      difficulty,
+      global: {
+        sessionId,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+
+
 app.get('/status', (req, res) => res.sendStatus(200));
 
-app.get('/new', (req, res) => {
-  res.render('newhome', {
-    themes: Object.entries(themes).map(([name, t]) => ({ name, color: t.color })),
-    difficulties: Object.entries(DIFFICULTIES).map(([name, d]) => ({ name, color: d.color })),
-  });
-});
-
 app.get('/', (req, res) => {
-  res.render('home');
+  res.render('home', {
+    themes: Object.entries(config.game.themes).map(([name, t]) => ({ name, color: t.color })),
+    difficulties: Object.entries(config.game.difficulties).map(([name, d]) => ({ name, color: d.color })),
+  });
 });
 
-app.get('/play/:theme/:difficulty', (req, res) => {
-  const { theme, difficulty } = req.params;
+app.get('/play/:theme/:difficulty', (req, res, next) => {
+  try {
+    const { theme, difficulty } = req.params;
 
-  const cards = DIFFICULTIES[difficulty].cards;
-  if (!cards) {
-    return res
-      .status(404)
-      .json({ message: `Difficulty "${difficulty}" does not exist.` }); // make error page
+    const game = new Memory({ difficulty, theme, shuffle: true });
+
+    const session = {
+      game,
+    };
+
+    const sessionId = sessions.createSession({ session });
+
+    res.render('play', {
+      cards: game.cards,
+      difficulty,
+      global: {
+        sessionId,
+      },
+    });
+  } catch (error) {
+    next(error);
   }
-
-  if (!themeExists(theme)) {
-    return res
-      .status(404)
-      .json({ message: `Theme "${theme}" does not exist.` });
-  }
-
-  const game = new Memory({ cards, theme, shuffle: true });
-
-  const session = {
-    game,
-    last_api_call: Date.now(),
-  };
-
-  const sessionId = sessions.createSession({ session, EXPIRE_SESSION });
-
-  res.render('play', {
-    cards,
-    difficulty,
-    global: {
-      sessionId,
-    },
-  });
 });
 
 app.post('/api/close', express.text(), (req, res) => {
@@ -87,30 +95,46 @@ app.post('/api/close', express.text(), (req, res) => {
   res.sendStatus(exists ? 200 : 401);
 });
 
-app.post('/api/flip', (req, res) => {
-  const { sessionId, cardIndex } = req.body;
+app.post('/api/flip', (req, res, next) => {
+  try {
+    const { sessionId, cardIndex } = req.body;
 
-  const session = sessions.getSession(sessionId);
-  if (!session) {
-    return res
-      .status(401)
-      .json({ message: 'Session expired or does not exist.', refresh: true });
+    const session = sessions.getSession(sessionId);
+    if (!session) throw createError(401, 'Session expired or does not exist.', { refresh: true });
+
+    const data = session.game.flip(cardIndex);
+    if (data.win) {
+      sessions.expireSession(sessionId);
+
+      console.log(now - session.game.started_at);
+    }
+
+    res.status(200).json(data);
+  } catch (error) {
+    next(error);
   }
-
-  const now = Date.now();
-  if (now - session.last_api_call < 250) {
-    return res.status(429).json({ message: 'Too soon.' });
-  }
-  session.last_api_call = now;
-
-  const { status, data } = session.game.flip(cardIndex);
-  if (data.win) {
-    sessions.expireSession(sessionId);
-
-    console.log(now - session.game.started_at);
-  }
-
-  res.status(status).json(data);
 });
 
-app.listen(3000, () => console.log('App is listening on port 3000'));
+app.use((req, res, next) => {
+  next(createError(404, `Path ${req.originalUrl} not found`));
+});
+
+app.use((error, req, res, next) => {
+  const isApi = req.path.startsWith('/api');
+  const status = error.status || 500;
+
+  if (isApi) {
+    res.status(status).json({
+      message: error.message,
+      ...error.data,
+    });
+  } else {
+    res.status(status).render("error", {
+      status: status,
+      message: config.errorMessages[status] || config.errorMessages.default,
+      error: error.message
+    });
+  }
+})
+
+app.listen(config.port, () => console.log(`App is listening on port ${config.port}`));

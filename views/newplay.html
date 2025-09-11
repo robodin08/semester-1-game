@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Memory - {{ difficulty | capitalize }}</title>
+
+  <link rel="stylesheet" href="/css/styles.css" />
+
+  <!-- Icons -->
+  <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/assets/icons/favicon-64x64.png" sizes="64x64" type="image/png">
+  <link rel="icon" href="/assets/icons/favicon-32x32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="/assets/icons/favicon-16x16.png" sizes="16x16" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon-180x180.png" sizes="180x180">
+  <link rel="mask-icon" href="/assets/icons/favicon.svg" color="#5bbad5">
+  <meta name="theme-color" content="#ffffff">
+
+  <style>
+    .card-holder {
+      display: grid;
+      width: min-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .card-holder.grid-16 {
+      grid-template-columns: repeat(4, 9rem);
+      grid-template-rows: repeat(4, 9rem);
+      column-gap: 2rem;
+      row-gap: 2rem;
+    }
+
+    .card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.8s;
+      transform-style: preserve-3d;
+      box-shadow: 0 0.25rem 0.5rem 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .card-flip .card-inner {
+      transform: rotateY(180deg);
+      cursor: auto;
+    }
+
+    .card-front,
+    .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      align-content: center;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+    }
+
+    .card-front img {
+      width: 100%;
+      height: 100%;
+    }
+
+    .card-back {
+      display: flex;
+      background-color: white;
+      color: white;
+      transform: rotateY(180deg);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .card-back img {
+      width: 80%;
+      height: 80%;
+    }
+
+    .card-pairs {
+      transform: scale(0.9);
+      transition: all 0.5s;
+    }
+  </style>
+</head>
+
+<body class="bg-amber-100 flex flex-col items-center justify-start p-4">
+  <h1 class="text-4xl md:text-5xl font-extrabold text-blue-400 mt-4">Memory</h1>
+  <div class="flex mt-4 items-center justify-center gap-4 text-2xl md:text-3xl font-bold text-blue-300">
+    <h3>
+      Pairs: <span id="pairs">0</span>
+    </h3>
+    <h3>
+      Time: <span id="timer">00:00.0</span>
+    </h3>
+    <h3>
+      Guesses: <span id="guesses">0</span>
+    </h3>
+  </div>
+  <main class="mt-8">
+    <div class="card-holder grid-{{ cards }}">
+      {% for i in range(0, cards) %}
+      <button id="memory-card" class="cursor-pointer border-none perspective-[75rem]">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="/assets/images/memoryCardBack.svg" />
+          </div>
+          <div class="card-back">
+            <img id="image" />
+          </div>
+        </div>
+      </button>
+      {% else %}
+      <h2>Error while loading</h2>
+      {% endfor %}
+    </div>
+  </main>
+  {% include "components/global.njk" %}
+  <script src="/js/components/utils.js"></script>
+  <script src="/js/components/fetch.js"></script>
+  <script src="/js/components/timer.js"></script>
+  <script src="/js/components/sound.js"></script>
+  <script src="/js/components/confetti.js"></script>
+  <script src="/js/play.js"></script>
+</body>
+
+</html>
