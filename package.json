@@ -1,8 +1,11 @@
 {
   "scripts": {
     "start": "node src/app.js",
-    "build:tailwind": "npx tailwindcss -i src/tailwind.css -o public/css/styles.css",
-    "dev": "nodemon"
+    "dev": "nodemon",
+    "build:tailwind": "run-p build:tailwind:*",
+    "build:tailwind:home": "tailwindcss -i src/styles/home.css -o public/css/home.css",
+    "build:tailwind:play": "tailwindcss -i src/styles/play.css -o public/css/play.css",
+    "build:tailwind:error": "tailwindcss -i src/styles/error.css -o public/css/error.css"
   },
   "type": "module",
   "dependencies": {
@@ -16,6 +19,7 @@
     "chalk": "^5.6.0",
     "inquirer": "^12.9.4",
     "nodemon": "^3.1.10",
+    "npm-run-all": "^4.1.5",
     "tailwindcss": "^4.1.13",
     "twemoji": "^14.0.2"
   }

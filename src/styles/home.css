@@ -1,4 +1,8 @@
-@import "tailwindcss";
+@import "tailwindcss" source(none);
+
+@source "../../views/home.html";
+@source "../../public/js/home.js";
+@source "../../src/config.js";
 
 @layer components {
   .theme-btn {

@@ -81,11 +81,9 @@ async function onCardClick(i) {
         console.log('LEVEL COMPLETED');
         stopTimer();
 
-        (async () => {
-          await winSound();
+        winSound.play();
 
-          fireConfettiCannon();
-        })();
+        fireConfettiCannon();
       }
     } else {
       failFlipSound.play();

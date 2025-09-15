@@ -29,34 +29,6 @@ app.use(morgan('dev')); // after static so skip static events
 app.use(express.json());
 // app.use(express.urlencoded({ extended: false }));
 
-
-
-app.get('/new/play/:theme/:difficulty', (req, res, next) => {
-  try {
-    const { theme, difficulty } = req.params;
-
-    const game = new Memory({ difficulty, theme, shuffle: true });
-
-    const session = {
-      game,
-    };
-
-    const sessionId = sessions.createSession({ session });
-
-    res.render('newplay', {
-      cards: game.cards,
-      difficulty,
-      global: {
-        sessionId,
-      },
-    });
-  } catch (error) {
-    next(error);
-  }
-});
-
-
-
 app.get('/status', (req, res) => res.sendStatus(200));
 
 app.get('/', (req, res) => {
@@ -70,7 +42,7 @@ app.get('/play/:theme/:difficulty', (req, res, next) => {
   try {
     const { theme, difficulty } = req.params;
 
-    const game = new Memory({ difficulty, theme, shuffle: true });
+    const game = new Memory({ difficulty, theme, shuffle: false });
 
     const session = {
       game,
@@ -106,7 +78,7 @@ app.post('/api/flip', (req, res, next) => {
     if (data.win) {
       sessions.expireSession(sessionId);
 
-      console.log(now - session.game.started_at);
+      console.log(Date.now() - session.game.started_at);
     }
 
     res.status(200).json(data);

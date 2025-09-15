@@ -1,0 +1,38 @@
+@import "tailwindcss" source(none);
+
+@source "../../views/play.html";
+@source "../../public/js/play.js";
+
+@layer components {
+  .grid-4 {
+    grid-template-columns: repeat(2, 18rem);
+    grid-template-rows: repeat(2, 18rem);
+    @apply gap-16;
+  }
+
+  .grid-16 {
+    grid-template-columns: repeat(4, 9rem);
+    grid-template-rows: repeat(4, 9rem);
+    @apply gap-8;
+  }
+
+  .grid-30 {
+    grid-template-columns: repeat(6, 7rem);
+    grid-template-rows: repeat(5, 7rem);
+    @apply gap-7;
+  }
+
+  .grid-52 {
+    grid-template-columns: repeat(10, 5rem);
+    grid-template-rows: repeat(6, 5rem);
+    @apply gap-8;
+  }
+
+  .card-pairs {
+    @apply scale-90 transition-all duration-500
+  }
+
+  .card-flip .card-inner {
+    @apply cursor-default rotate-y-180
+  }
+}
