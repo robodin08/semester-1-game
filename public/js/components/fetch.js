@@ -1,6 +1,6 @@
 async function fetchUrl({
   url,
-  method = 'POST',
+  method = "POST",
   headers = {},
   body = null,
 } = {}) {
@@ -8,7 +8,7 @@ async function fetchUrl({
     const options = {
       method,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         ...headers,
       },
     };
@@ -32,7 +32,7 @@ async function fetchUrl({
       data: data || response.statusText,
     };
   } catch (error) {
-    console.error('Network error:', error.message);
+    console.error("Network error:", error.message);
     return { success: false, error: error.message };
   }
 }

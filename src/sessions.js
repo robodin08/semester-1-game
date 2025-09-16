@@ -1,6 +1,6 @@
-import crypto from 'node:crypto';
+import crypto from "node:crypto";
 
-import config from './config.js';
+import config from "./config.js";
 
 const sessions = new Map();
 

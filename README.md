@@ -4,13 +4,12 @@ Dit is een interactieve web applicatie van het klassieke Memory kaartspel, gebou
 
 ## 📑 Inhoudsopgave
 
-- [🎯 Over dit project](#over-dit-project)
-- [✨ Features](#features)
-- [🎮 Hoe speel je Memory?](#hoe-speel-je-memory)
-- [🛠️ Gebruikte Technologieën](#gebruikte-technologieën)
-- [📥 Hoe het te installeren](#hoe-het-te-installeren)
-- [📁 Hoe het project is opgebouwd](#hoe-het-project-is-opgebouwd)
-- [👨‍💻 Auteur & Project Info](#auteur--project-info)
+- [🎯 Over dit project](#-over-dit-project)
+- [✨ Features](#-features)
+- [🎮 Hoe speel je Memory?](#-hoe-speel-je-memory)
+- [📥 Hoe het te installeren](#-hoe-het-te-installeren)
+- [📁 Hoe het project is opgebouwd](#-hoe-het-project-is-opgebouwd)
+- [👨‍💻 Auteur & Project Info](#-auteur--project-info)
 
 ## 🎯 Over dit project
 
@@ -36,25 +35,6 @@ Dit Memory spel is ontwikkeld als schoolproject en biedt een moderne twist op he
 5. **Vind de paren** door twee identieke kaarten na elkaar om te draaien
 6. **Win het spel** door alle paren te vinden in zo min mogelijk zetten!
 
-## 🛠️ Gebruikte Technologieën
-
-**Backend:**
-- Node.js - JavaScript runtime
-- Express.js - Web framework voor Node.js
-- Nunjucks - Template engine voor server-side rendering
-- Morgan - HTTP request logger
-
-**Frontend:**
-- Vanilla JavaScript - Voor spellogica en interactiviteit
-- TailwindCSS - Voor styling en responsive design
-- CSS3 - Voor custom animaties en effecten
-- HTML5 - Voor de basis structuur
-
-**Development Tools:**
-- Nodemon - Automatisch herstarten tijdens development
-- Twemoji - Voor emoji ondersteuning
-- npm-run-all - Voor het parallel uitvoeren van scripts
-
 ## 📥 Hoe het te installeren
 
 Volg deze stappen om het project op te zetten nadat je het hebt gedownload van Git:
@@ -66,29 +46,39 @@ Volg deze stappen om het project op te zetten nadat je het hebt gedownload van G
 ### 🔧 Stappen
 
 1. **Download het project**
+
    ```
    git clone https://github.com/robodin08/semester-1-game.git
    cd semester-1-game
    ```
 
 2. **Installeer alle benodigde packages**
+
    ```
    npm ci
    ```
 
-3. **Start de applicatie**
-   
+3. **Build de CSS (TailwindCSS)**
+
+   ```
+   npm run build:tailwind
+   ```
+
+4. **Start de applicatie**
+
    Voor development (herstart automatisch als je iets verandert):
+
    ```
    npm run dev
    ```
-   
+
    Of gewoon starten:
+
    ```
    npm start
    ```
 
-4. **Open het spel**
+5. **Open het spel**
    Ga in je browser naar:
    ```
    http://localhost:3000

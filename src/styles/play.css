@@ -29,10 +29,10 @@
   }
 
   .card-pairs {
-    @apply scale-90 transition-all duration-500
+    @apply scale-90 transition-all duration-500;
   }
 
   .card-flip .card-inner {
-    @apply cursor-default rotate-y-180
+    @apply cursor-default rotate-y-180;
   }
 }

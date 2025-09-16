@@ -1,6 +1,6 @@
 (async () => {
   await import(
-    'https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js'
+    "https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"
   );
 })();
 
@@ -13,7 +13,7 @@ function fire(particleRatio, opts) {
   confetti(
     Object.assign({}, confetti_defaults, opts, {
       particleCount: Math.floor(confetti_count * particleRatio),
-    })
+    }),
   );
 }
 

@@ -1,44 +1,65 @@
-import express from 'express';
-import nunjucks from 'nunjucks';
-import morgan from 'morgan';
+import express from "express";
+import nunjucks from "nunjucks";
+import morgan from "morgan";
+import cookieParser from "cookie-parser";
+import i18n from "i18n";
 
-import Memory from './memory.js';
-import * as sessions from './sessions.js';
-import config from './config.js';
-import createError from './error.js';
+import Memory from "./memory.js";
+import * as sessions from "./sessions.js";
+import config from "./config.js";
+import createError from "./error.js";
 
 const app = express();
 
-app.set('view engine', 'html');
-const env = nunjucks.configure('views', {
+i18n.configure({
+  locales: ["en", "nl"],
+  directory: "src/locales",
+  defaultLocale: "en",
+  header: 'accept-language',
+  queryParameter: "lang",
+  cookie: "lang",
+  autoReload: true,
+  syncFiles: true,
+  objectNotation: true,
+});
+
+app.set("view engine", "html");
+const env = nunjucks.configure("views", {
   autoescape: true,
   express: app,
 });
 
-env.addFilter('capitalize', (str) => {
-  if (!str) return '';
+env.addFilter("capitalize", (str) => {
+  if (!str) return "";
   return str
-    .split(' ')
+    .split(" ")
     .map((word) => word[0].toUpperCase() + word.slice(1))
-    .join(' ');
+    .join(" ");
 });
 
-app.use(express.static('public'));
-
-app.use(morgan('dev')); // after static so skip static events
+app.use(express.static("public"));
+app.use(morgan("dev"));
 app.use(express.json());
-// app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 
-app.get('/status', (req, res) => res.sendStatus(200));
+app.use(i18n.init);
 
-app.get('/', (req, res) => {
-  res.render('home', {
-    themes: Object.entries(config.game.themes).map(([name, t]) => ({ name, color: t.color })),
-    difficulties: Object.entries(config.game.difficulties).map(([name, d]) => ({ name, color: d.color })),
+app.get("/status", (req, res) => res.sendStatus(200));
+
+app.get("/", (req, res) => {
+  res.render("home", {
+    themes: Object.entries(config.game.themes).map(([name, t]) => ({
+      name,
+      color: t.color,
+    })),
+    difficulties: Object.entries(config.game.difficulties).map(([name, d]) => ({
+      name,
+      color: d.color,
+    })),
   });
 });
 
-app.get('/play/:theme/:difficulty', (req, res, next) => {
+app.get("/play/:theme/:difficulty", (req, res, next) => {
   try {
     const { theme, difficulty } = req.params;
 
@@ -50,7 +71,7 @@ app.get('/play/:theme/:difficulty', (req, res, next) => {
 
     const sessionId = sessions.createSession({ session });
 
-    res.render('play', {
+    res.render("play", {
       cards: game.cards,
       difficulty,
       global: {
@@ -62,17 +83,20 @@ app.get('/play/:theme/:difficulty', (req, res, next) => {
   }
 });
 
-app.post('/api/close', express.text(), (req, res) => {
+app.post("/api/close", express.text(), (req, res) => {
   const exists = sessions.expireSession(req.body);
   res.sendStatus(exists ? 200 : 401);
 });
 
-app.post('/api/flip', (req, res, next) => {
+app.post("/api/flip", (req, res, next) => {
   try {
     const { sessionId, cardIndex } = req.body;
 
     const session = sessions.getSession(sessionId);
-    if (!session) throw createError(401, 'Session expired or does not exist.', { refresh: true });
+    if (!session)
+      throw createError(401, "Session expired or does not exist.", {
+        refresh: true,
+      });
 
     const data = session.game.flip(cardIndex);
     if (data.win) {
@@ -92,7 +116,7 @@ app.use((req, res, next) => {
 });
 
 app.use((error, req, res, next) => {
-  const isApi = req.path.startsWith('/api');
+  const isApi = req.path.startsWith("/api");
   const status = error.status || 500;
 
   if (isApi) {
@@ -102,11 +126,12 @@ app.use((error, req, res, next) => {
     });
   } else {
     res.status(status).render("error", {
-      status: status,
-      message: config.errorMessages[status] || config.errorMessages.default,
-      error: error.message
+      status,
+      error: error.message,
     });
   }
-})
+});
 
-app.listen(config.port, () => console.log(`App is listening on port ${config.port}`));
+app.listen(config.port, () =>
+  console.log(`App is listening on port ${config.port}`),
+);

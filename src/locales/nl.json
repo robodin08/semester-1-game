@@ -1,0 +1,42 @@
+{
+  "menu": {
+    "chooseTheme": "Kies Thema",
+    "chooseDifficulty": "Kies Moeilijkheidsgraad",
+    "play": "Spelen"
+  },
+  "game": {
+    "difficulties": {
+      "easy": "Makkelijk",
+      "normal": "Normaal",
+      "hard": "Moeilijk",
+      "extreme": "Extreem"
+    },
+    "themes": {
+      "animals": "Dieren",
+      "faces": "Gezichten",
+      "food": "Eten",
+      "objects": "Objecten",
+      "plants": "Planten",
+      "symbols": "Symbolen",
+      "vehicles": "Voertuigen",
+      "activities": "Activiteiten"
+    }
+  },
+  "error": {
+    "back": "Ga terug"
+  },
+  "errors": {
+    "400": "Ongeldig verzoek",
+    "401": "Niet geautoriseerd",
+    "403": "Verboden",
+    "404": "Pagina niet gevonden",
+    "405": "Methode niet toegestaan",
+    "409": "Conflict",
+    "422": "Niet verwerkbaar verzoek",
+    "429": "Te veel verzoeken",
+    "500": "Interne serverfout",
+    "502": "Bad Gateway",
+    "503": "Service niet beschikbaar",
+    "504": "Gateway Time-out"
+  }
+}
