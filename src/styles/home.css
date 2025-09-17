@@ -4,6 +4,8 @@
 @source "../../public/js/home.js";
 @source "../../src/config.js";
 
+@source "../../views/components/languages.html";
+
 @layer components {
   .theme-btn {
     @apply flex flex-col items-center justify-center text-white font-bold text-lg 

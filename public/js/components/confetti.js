@@ -1,43 +1,29 @@
-(async () => {
-  await import(
-    "https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"
-  );
-})();
+window.fireConfettiCannon = () => "Confetti script loading";
 
-const confetti_count = 400;
-const confetti_defaults = {
-  origin: { y: 0.65, x: 0.5 },
+const confettiScript = document.createElement("script");
+confettiScript.src = "/js/libs/confetti.min.js";
+
+confettiScript.onload = () => {
+  function fire(particleRatio, opts) {
+    confetti(
+      Object.assign({}, { origin: { y: 0.65, x: 0.5 } }, opts, {
+        particleCount: Math.floor(400 * particleRatio),
+      }),
+    );
+  }
+
+  window.fireConfettiCannon = () => {
+    fire(0.25, { spread: 32, startVelocity: 55 });
+    fire(0.2, { spread: 72 });
+    fire(0.35, { spread: 120, decay: 0.91, scalar: 0.4 });
+    fire(0.1, { spread: 144, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+    fire(0.1, { spread: 144, startVelocity: 45 });
+  };
 };
 
-function fire(particleRatio, opts) {
-  confetti(
-    Object.assign({}, confetti_defaults, opts, {
-      particleCount: Math.floor(confetti_count * particleRatio),
-    }),
-  );
-}
+confettiScript.onerror = () => {
+  console.error("Failed to load confetti script");
+  window.fireConfettiCannon = () => "Confetti loading failed";
+};
 
-function fireConfettiCannon() {
-  fire(0.25, {
-    spread: 32,
-    startVelocity: 55,
-  });
-  fire(0.2, {
-    spread: 72,
-  });
-  fire(0.35, {
-    spread: 120,
-    decay: 0.91,
-    scalar: 0.4,
-  });
-  fire(0.1, {
-    spread: 144,
-    startVelocity: 25,
-    decay: 0.92,
-    scalar: 1.2,
-  });
-  fire(0.1, {
-    spread: 144,
-    startVelocity: 45,
-  });
-}
+document.head.appendChild(confettiScript);

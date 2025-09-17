@@ -12,15 +12,19 @@ import createError from "./error.js";
 const app = express();
 
 i18n.configure({
-  locales: ["en", "nl"],
+  locales: config.locales,
   directory: "src/locales",
-  defaultLocale: "en",
-  header: 'accept-language',
-  queryParameter: "lang",
+  defaultLocale: config.locales[0],
+  // header: "accept-language",
+  // queryParameter: "lang",
   cookie: "lang",
   autoReload: true,
   syncFiles: true,
   objectNotation: true,
+  api: {
+    __: "t",
+    __n: "tn",
+  },
 });
 
 app.set("view engine", "html");
@@ -37,12 +41,21 @@ env.addFilter("capitalize", (str) => {
     .join(" ");
 });
 
+env.addFilter("url_encode", function (str) {
+  if (!str) return "";
+  return encodeURIComponent(str);
+});
+
 app.use(express.static("public"));
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(cookieParser());
 
 app.use(i18n.init);
+app.use((req, res, next) => {
+  res.locals.currentUrl = req.originalUrl;
+  next();
+});
 
 app.get("/status", (req, res) => res.sendStatus(200));
 
@@ -59,6 +72,21 @@ app.get("/", (req, res) => {
   });
 });
 
+app.get("/change-language/:lng", (req, res) => {
+  const { lng } = req.params;
+  const { redirect } = req.query;
+
+  if (config.locales.includes(lng)) res.cookie("lang", lng);
+
+  let safeRedirect = "/";
+
+  if (redirect && redirect.startsWith("/") && !redirect.startsWith("//")) {
+    safeRedirect = redirect;
+  }
+
+  res.redirect(safeRedirect);
+});
+
 app.get("/play/:theme/:difficulty", (req, res, next) => {
   try {
     const { theme, difficulty } = req.params;
@@ -71,11 +99,16 @@ app.get("/play/:theme/:difficulty", (req, res, next) => {
 
     const sessionId = sessions.createSession({ session });
 
+    const translations = req.getCatalog();
+
+    // console.log(i18n.__h("info.name"));
+
     res.render("play", {
       cards: game.cards,
       difficulty,
       global: {
         sessionId,
+        translations, // Only send the ones you use
       },
     });
   } catch (error) {
@@ -112,7 +145,7 @@ app.post("/api/flip", (req, res, next) => {
 });
 
 app.use((req, res, next) => {
-  next(createError(404, `Path ${req.originalUrl} not found`));
+  next(createError(404, `Page ${req.originalUrl} not found`));
 });
 
 app.use((error, req, res, next) => {

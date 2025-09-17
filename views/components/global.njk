@@ -1,3 +1,6 @@
 <script>
-  window.GLOBAL = {{ global | dump | safe }};
+  Object.assign(window,
+    {{ global | dump | safe }},
+    { lang: {{ getLocale() | dump | safe }} }
+  );
 </script>

@@ -20,7 +20,7 @@ function createTimer(spanElement, startedAt = Date.now()) {
 
   const interval = setInterval(() => {
     clock += delta();
-    spanElement.textContent = formatMMSS(clock);
+    spanElement.textContent = t("play.timer", { time: formatMMSS(clock) });
   }, 1);
 
   return () => {

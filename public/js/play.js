@@ -1,6 +1,6 @@
 const cards = document.querySelectorAll("#memory-card");
 
-const global = window.GLOBAL;
+const sessionId = window.sessionId;
 
 let canFlip = true;
 let isFirstFlip = true;
@@ -33,9 +33,9 @@ const successSound = new CreateSound({
 
 let stopTimer = null;
 
-function updateStats(stat, value) {
+function updateStats(stat, count) {
   const el = document.getElementById(stat);
-  if (el) el.textContent = value;
+  if (el) el.textContent = t(`play.${stat}`, { count });
 }
 
 async function onCardClick(i) {
@@ -46,7 +46,7 @@ async function onCardClick(i) {
   const response = await fetchUrl({
     url: "/api/flip",
     body: {
-      sessionId: global.sessionId,
+      sessionId: sessionId,
       cardIndex: i,
     },
   });
@@ -125,5 +125,5 @@ cards.forEach((card, i) => {
 
 // Remove session when closed
 window.addEventListener("unload", function () {
-  navigator.sendBeacon("/api/close", global.sessionId);
+  navigator.sendBeacon("/api/close", sessionId);
 });

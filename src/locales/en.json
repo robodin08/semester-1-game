@@ -1,42 +1,61 @@
 {
-	"menu": {
-		"chooseTheme": "Choose Theme",
-		"chooseDifficulty": "Choose Difficulty",
-		"play": "Play"
-	},
-	"game": {
-		"difficulties": {
-			"easy": "Easy",
-			"normal": "Normal",
-			"hard": "Hard",
-			"extreme": "Extreme"
-		},
-		"themes": {
-			"animals": "Animals",
-			"faces": "Faces",
-			"food": "Food",
-			"objects": "Objects",
-			"plants": "Plants",
-			"symbols": "Symbols",
-			"vehicles": "Vehicles",
-			"activities": "Activities"
-		}
-	},
-	"error": {
-		"back": "Go back"
-	},
-	"errors": {
-		"400": "Bad Request",
-		"401": "Unauthorized",
-		"403": "Forbidden",
-		"404": "Page not found",
-		"405": "Method Not Allowed",
-		"409": "Conflict",
-		"422": "Unprocessable Entity",
-		"429": "Too Many Requests",
-		"500": "Internal Server Error",
-		"502": "Bad Gateway",
-		"503": "Service Unavailable",
-		"504": "Gateway Timeout"
-	}
+  "info": {
+    "name": "English",
+    "language": "Language"
+  },
+  "menu": {
+    "chooseTheme": "Choose Theme",
+    "chooseDifficulty": "Choose Difficulty",
+    "play": "Play"
+  },
+  "play": {
+    "timer": "Time: {{ time }}",
+    "pairs": "Pairs: {{ count }}",
+    "turns": "Turns: {{ count }}"
+  },
+  "game": {
+    "difficulties": {
+      "easy": "Easy",
+      "normal": "Normal",
+      "hard": "Hard",
+      "extreme": "Extreme"
+    },
+    "themes": {
+      "animals": "Animals",
+      "faces": "Faces",
+      "food": "Food",
+      "objects": "Objects",
+      "plants": "Plants",
+      "symbols": "Symbols",
+      "vehicles": "Vehicles",
+      "activities": "Activities"
+    }
+  },
+  "statuses": {
+    "success": "Success",
+    "error": "Error"
+  },
+  "sounds": {
+    "loaded": "Sound loaded: {{ url }}",
+    "failed": "Failed to load sound: {{ url }}"
+  },
+  "errors": {
+    "ui": {
+      "back": "Go back"
+    },
+    "http": {
+      "400": "Bad Request",
+      "401": "Unauthorized",
+      "403": "Forbidden",
+      "404": "Page not found",
+      "405": "Method Not Allowed",
+      "409": "Conflict",
+      "422": "Unprocessable Entity",
+      "429": "Too Many Requests",
+      "500": "Internal Server Error",
+      "502": "Bad Gateway",
+      "503": "Service Unavailable",
+      "504": "Gateway Timeout"
+    }
+  }
 }

@@ -1,11 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="{{ getLocale() }}">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Memory</title>
-
-    <link rel="stylesheet" href="/css/home.css" />
 
     <!-- Icons -->
     <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml" />
@@ -34,46 +32,60 @@
     />
     <link rel="mask-icon" href="/assets/icons/favicon.svg" color="#5bbad5" />
     <meta name="theme-color" content="#ffffff" />
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/css/home.css" />
   </head>
 
-  <body class="bg-amber-10 flex flex-col items-center justify-start p-4">
-    <h1 class="text-4xl md:text-5xl font-extrabold text-blue-400 mt-4">
-      Memory
-    </h1>
-    <main class="flex flex-col items-center mt-8 w-full max-w-lg">
-      <h2 class="text-2xl md:text-3xl text-blue-300 font-bold mb-6 text-center">
-        {{ __('menu.chooseTheme') }}
-      </h2>
+  <body class="bg-amber-100 p-4">
+    {% include "components/languages.html" %}
 
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full mb-10">
-        {% for theme in themes %}
-        <button class="theme-btn {{theme.color}}" data-theme="{{theme.name}}">
-          <img
-            src="/assets/themes/{{theme.name}}/0.svg"
-            class="w-12 h-12 mx-auto mb-2"
-          />
-          {{ __("game.themes." ~ theme.name) }}
-        </button>
-        {% endfor %}
-      </div>
-
-      <h2 class="text-2xl md:text-3xl text-blue-300 font-bold mb-6 text-center">
-        {{ __('menu.chooseDifficulty') }}
-      </h2>
-
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full mb-8">
-        {% for difficulty in difficulties %}
-        <button
-          class="difficulty-btn {{difficulty.color}}"
-          data-difficulty="{{difficulty.name}}"
+    <div class="flex flex-col items-center">
+      <h1 class="text-4xl md:text-5xl font-extrabold text-blue-400 mt-4">
+        Memory
+      </h1>
+      <main class="flex flex-col items-center mt-8 w-full max-w-lg">
+        <h2
+          class="text-2xl md:text-3xl text-blue-300 font-bold mb-6 text-center"
         >
-          {{ __("game.difficulties." ~ difficulty.name) }}
-        </button>
-        {% endfor %}
-      </div>
+          {{ t('menu.chooseTheme') }}
+        </h2>
 
-      <button id="playButton" class="card-play">{{ __('menu.play') }}</button>
-    </main>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full mb-10">
+          {% for theme in themes %}
+          <button class="theme-btn {{theme.color}}" data-theme="{{theme.name}}">
+            <img
+              src="/assets/themes/{{theme.name}}/0.svg"
+              class="w-12 h-12 mx-auto mb-2"
+            />
+            {{ t("game.themes." ~ theme.name) }}
+          </button>
+          {% endfor %}
+        </div>
+
+        <h2
+          class="text-2xl md:text-3xl text-blue-300 font-bold mb-6 text-center"
+        >
+          {{ t('menu.chooseDifficulty') }}
+        </h2>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full mb-8">
+          {% for difficulty in difficulties %}
+          <button
+            class="difficulty-btn {{difficulty.color}}"
+            data-difficulty="{{difficulty.name}}"
+          >
+            {{ t("game.difficulties." ~ difficulty.name) }}
+          </button>
+          {% endfor %}
+        </div>
+
+        <button id="playButton" class="card-play">{{ t('menu.play') }}</button>
+      </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/js/libs/tailwindplus.min.js"></script>
 
     <script src="/js/home.js"></script>
   </body>

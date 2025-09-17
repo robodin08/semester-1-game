@@ -4,10 +4,10 @@
     "dev": "nodemon",
     "format": "npx prettier --write .",
     "build:tailwind": "run-p build:tailwind:*",
-    "build:tailwind:home": "tailwindcss -i src/styles/home.css -o public/css/home.css",
-    "build:tailwind:play": "tailwindcss -i src/styles/play.css -o public/css/play.css",
-    "build:tailwind:error": "tailwindcss -i src/styles/error.css -o public/css/error.css",
-    "build:tailwind:notifications": "tailwindcss -i src/styles/components/notifications.css -o public/css/components/notifications.css"
+    "build:tailwind:home": "tailwindcss -i src/styles/home.css -o public/css/home.css --minify",
+    "build:tailwind:play": "tailwindcss -i src/styles/play.css -o public/css/play.css --minify",
+    "build:tailwind:error": "tailwindcss -i src/styles/error.css -o public/css/error.css --minify",
+    "build:tailwind:notifications": "tailwindcss -i src/styles/components/notifications.css -o public/css/components/notifications.css --minify"
   },
   "type": "module",
   "dependencies": {

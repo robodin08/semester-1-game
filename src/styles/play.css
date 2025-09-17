@@ -3,6 +3,8 @@
 @source "../../views/play.html";
 @source "../../public/js/play.js";
 
+@source "../../views/components/languages.html";
+
 @layer components {
   .grid-4 {
     grid-template-columns: repeat(2, 18rem);

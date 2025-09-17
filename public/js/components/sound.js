@@ -3,7 +3,7 @@ class CreateSound {
     url,
     volume = 1,
     startAt = 0,
-    notifications = { error: true, success: false, play: false, ended: false },
+    notifications = { error: true, success: false },
   }) {
     this.url = url;
     this.volume = volume;
@@ -27,8 +27,8 @@ class CreateSound {
 
         if (this.notifications.success && typeof notification === "function") {
           notification({
-            title: "Success",
-            body: `Sound loaded: ${this.url}`,
+            title: t("statuses.success"),
+            body: t("sounds.loaded", { url: this.url }),
             type: "success",
           });
         }
@@ -40,8 +40,8 @@ class CreateSound {
 
         if (this.notifications.error && typeof notification === "function") {
           notification({
-            title: "Error",
-            body: `Failed to load sound: ${this.url}`,
+            title: t("statuses.error"),
+            body: t("sounds.failed", { url: this.url }),
             type: "error",
           });
         }
@@ -63,26 +63,11 @@ class CreateSound {
     gain.gain.value = volume ?? this.volume;
     source.connect(gain).connect(this.audioCtx.destination);
 
-    if (this.notifications.play && typeof notification === "function") {
-      notification({
-        title: "Playing Sound",
-        body: this.url,
-        type: "info",
-      });
-    }
-
     // Start at specific time
     source.start(0, startAt ?? this.startAt);
 
     return new Promise((resolve) => {
       source.onended = () => {
-        if (this.notifications.ended && typeof notification === "function") {
-          notification({
-            title: "Sound Ended",
-            body: this.url,
-            type: "info",
-          });
-        }
         resolve(true);
       };
     });

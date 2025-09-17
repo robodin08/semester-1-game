@@ -1,12 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="{{ getLocale() }}">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Memory - {{ difficulty | capitalize }}</title>
-
-    <link rel="stylesheet" href="/css/play.css" />
-    <link rel="stylesheet" href="/css/components/notifications.css" />
 
     <!-- Icons -->
     <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml" />
@@ -35,40 +32,56 @@
     />
     <link rel="mask-icon" href="/assets/icons/favicon.svg" color="#5bbad5" />
     <meta name="theme-color" content="#ffffff" />
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/css/play.css" />
+    <link rel="stylesheet" href="/css/components/notifications.css" />
+    <link rel="stylesheet" href=" /css/components/languages.css" />
+
+    <!-- Important Scripts -->
+    {% include "components/global.njk" %}
+    <script src="/js/components/i18next.js"></script>
   </head>
 
-  <body class="bg-amber-100 flex flex-col items-center justify-start p-4">
-    <h1 class="text-4xl md:text-5xl font-extrabold text-blue-400 mt-4">
-      Memory
-    </h1>
-    <div
-      class="flex mt-4 items-center justify-center gap-4 text-2xl md:text-3xl font-bold text-blue-300"
-    >
-      <h3>Time: <span id="timer">00:00.0</span></h3>
-      <h3>Pairs: <span id="pairs">0</span></h3>
-      <h3>Turns: <span id="turns">0</span></h3>
-    </div>
-    <main class="mt-8">
-      <div class="grid grid-{{ cards }}">
-        {% for i in range(0, cards) %}
-        <button id="memory-card" class="cursor-pointer perspective-[75rem]">
-          <div class="card-inner shadow-lg duration-800 transform-3d size-full">
-            <div class="absolute backface-hidden size-full">
-              <img src="/assets/images/memoryCardBack.svg" />
-            </div>
-            <div
-              class="bg-white rotate-y-180 items-center justify-center absolute flex backface-hidden size-full"
-            >
-              <img class="size-8/10" id="image" />
-            </div>
-          </div>
-        </button>
-        {% else %}
-        <h2>Error while loading</h2>
-        {% endfor %}
+  <body class="bg-amber-100 p-4">
+    {% include "components/languages.html" %}
+
+    <div class="flex flex-col items-center">
+      <h1 class="text-4xl md:text-5xl font-extrabold text-blue-400 mt-4">
+        Memory
+      </h1>
+      <div
+        class="flex mt-4 items-center justify-center gap-4 text-2xl md:text-3xl font-bold text-blue-300"
+      >
+        <h3 id="timer">{{ t("play.timer", { time: "00:00.0"}) }}</h3>
+        <h3 id="pairs">{{ t("play.pairs", { count: 0 }) }}</h3>
+        <h3 id="turns">{{ t("play.turns", { count: 0 }) }}</h3>
       </div>
-    </main>
-    {% include "components/global.njk" %}
+      <main class="mt-8">
+        <div class="grid grid-{{ cards }}">
+          {% for i in range(0, cards) %}
+          <button id="memory-card" class="cursor-pointer perspective-[75rem]">
+            <div
+              class="card-inner shadow-lg duration-800 transform-3d size-full"
+            >
+              <div class="absolute backface-hidden size-full">
+                <img src="/assets/images/memoryCardBack.svg" />
+              </div>
+              <div
+                class="bg-white rotate-y-180 items-center justify-center absolute flex backface-hidden size-full"
+              >
+                <img class="size-8/10" id="image" />
+              </div>
+            </div>
+          </button>
+          {% endfor %}
+        </div>
+      </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/js/libs/tailwindplus.min.js"></script>
+
     <script src="/js/components/utils.js"></script>
     <script src="/js/components/fetch.js"></script>
     <script src="/js/components/timer.js"></script>

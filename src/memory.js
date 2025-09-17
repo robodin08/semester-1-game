@@ -64,6 +64,9 @@ export default class Memory {
     if (cardIndex < 0 || cardIndex >= this.cards)
       throw createError(401, "Invalid cardIndex.");
 
+    if (this.last_card_index === cardIndex)
+      throw createError(409, "You cannot flip the same card twice in a row.");
+
     const data = {
       image: `/assets/themes/${this.theme}/${this.level[cardIndex]}.svg`,
     };
