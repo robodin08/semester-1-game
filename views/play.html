@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ getLocale() }}">
+<html lang="{{ locale }}">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -36,10 +36,10 @@
     <!-- Styles -->
     <link rel="stylesheet" href="/css/play.css" />
     <link rel="stylesheet" href="/css/components/notifications.css" />
-    <link rel="stylesheet" href=" /css/components/languages.css" />
 
     <!-- Important Scripts -->
     {% include "components/global.njk" %}
+    <script src="/js/components/loadScript.js"></script>
     <script src="/js/components/i18next.js"></script>
   </head>
 
@@ -53,8 +53,8 @@
       <div
         class="flex mt-4 items-center justify-center gap-4 text-2xl md:text-3xl font-bold text-blue-300"
       >
-        <h3 id="timer">{{ t("play.timer", { time: "00:00.0"}) }}</h3>
         <h3 id="pairs">{{ t("play.pairs", { count: 0 }) }}</h3>
+        <h3 id="timer">{{ t("play.timer", { time: "00:00.0"}) }}</h3>
         <h3 id="turns">{{ t("play.turns", { count: 0 }) }}</h3>
       </div>
       <main class="mt-8">

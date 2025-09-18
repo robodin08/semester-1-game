@@ -1,0 +1,61 @@
+{
+  "info": {
+    "name": "Deutsch",
+    "language": "Sprache"
+  },
+  "menu": {
+    "chooseTheme": "Thema wählen",
+    "chooseDifficulty": "Schwierigkeitsgrad wählen",
+    "play": "Spielen"
+  },
+  "play": {
+    "timer": "Zeit: {{ time }}",
+    "pairs": "Paare: {{ count }}",
+    "turns": "Züge: {{ count }}"
+  },
+  "game": {
+    "difficulties": {
+      "easy": "Einfach",
+      "normal": "Normal",
+      "hard": "Schwierig",
+      "extreme": "Extrem"
+    },
+    "themes": {
+      "animals": "Tiere",
+      "faces": "Gesichter",
+      "food": "Essen",
+      "objects": "Objekte",
+      "plants": "Pflanzen",
+      "symbols": "Symbole",
+      "vehicles": "Fahrzeuge",
+      "activities": "Aktivitäten"
+    }
+  },
+  "statuses": {
+    "success": "Erfolg",
+    "error": "Fehler"
+  },
+  "sounds": {
+    "loaded": "Ton geladen: {{ url }}",
+    "failed": "Fehler beim Laden des Tons: {{ url }}"
+  },
+  "errors": {
+    "ui": {
+      "back": "Zurück"
+    },
+    "http": {
+      "400": "Ungültige Anfrage",
+      "401": "Nicht autorisiert",
+      "403": "Verboten",
+      "404": "Seite nicht gefunden",
+      "405": "Methode nicht erlaubt",
+      "409": "Konflikt",
+      "422": "Unverarbeitbare Entität",
+      "429": "Zu viele Anfragen",
+      "500": "Interner Serverfehler",
+      "502": "Ungültiges Gateway",
+      "503": "Dienst nicht verfügbar",
+      "504": "Gateway-Zeitüberschreitung"
+    }
+  }
+}

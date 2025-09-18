@@ -1,9 +1,6 @@
-window.fireConfettiCannon = () => "Confetti script loading";
+(async () => {
+  await loadScript("/js/libs/confetti.min.js");
 
-const confettiScript = document.createElement("script");
-confettiScript.src = "/js/libs/confetti.min.js";
-
-confettiScript.onload = () => {
   function fire(particleRatio, opts) {
     confetti(
       Object.assign({}, { origin: { y: 0.65, x: 0.5 } }, opts, {
@@ -19,11 +16,4 @@ confettiScript.onload = () => {
     fire(0.1, { spread: 144, startVelocity: 25, decay: 0.92, scalar: 1.2 });
     fire(0.1, { spread: 144, startVelocity: 45 });
   };
-};
-
-confettiScript.onerror = () => {
-  console.error("Failed to load confetti script");
-  window.fireConfettiCannon = () => "Confetti loading failed";
-};
-
-document.head.appendChild(confettiScript);
+})();

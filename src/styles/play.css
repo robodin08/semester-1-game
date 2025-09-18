@@ -24,10 +24,10 @@
     @apply gap-7;
   }
 
-  .grid-52 {
-    grid-template-columns: repeat(10, 5rem);
-    grid-template-rows: repeat(6, 5rem);
-    @apply gap-8;
+  .grid-40 {
+    grid-template-columns: repeat(8, 7rem);
+    grid-template-rows: repeat(5, 7rem);
+    @apply gap-7;
   }
 
   .card-pairs {

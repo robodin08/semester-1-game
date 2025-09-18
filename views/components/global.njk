@@ -1,6 +1,6 @@
 <script>
   Object.assign(window,
     {{ global | dump | safe }},
-    { lang: {{ getLocale() | dump | safe }} }
+    { lang: {{ locale | dump | safe }} }
   );
 </script>

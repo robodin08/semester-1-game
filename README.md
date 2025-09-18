@@ -9,7 +9,6 @@ Dit is een interactieve web applicatie van het klassieke Memory kaartspel, gebou
 - [🎮 Hoe speel je Memory?](#-hoe-speel-je-memory)
 - [📥 Hoe het te installeren](#-hoe-het-te-installeren)
 - [📁 Hoe het project is opgebouwd](#-hoe-het-project-is-opgebouwd)
-- [👨‍💻 Auteur & Project Info](#-auteur--project-info)
 
 ## 🎯 Over dit project
 
@@ -114,16 +113,6 @@ Memory/
 │   ├── play.html          # Spel pagina template
 │   └── components/        # Template componenten
 ```
-
-## 👨‍💻 Auteur & Project Info
-
-**Student:** Dinand  
-**Repository:** [robodin08/semester-1-game](https://github.com/robodin08/semester-1-game)  
-**Project Type:** Eerste semester schoolproject  
-**Vak:** Web Development  
-**Jaar:** 2025
-
-Dit project demonstreert de basisvaardigheden in web development met Node.js, Express, en frontend technologieën. Het is gebouwd zonder frameworks om een solide basis te leggen in vanilla JavaScript en moderne web development practices.
 
 ---
 

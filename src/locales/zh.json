@@ -1,0 +1,61 @@
+{
+  "info": {
+    "name": "中国人",
+    "language": "语言"
+  },
+  "menu": {
+    "chooseTheme": "选择主题",
+    "chooseDifficulty": "选择难度",
+    "play": "开始游戏"
+  },
+  "play": {
+    "timer": "时间: {{ time }}",
+    "pairs": "配对: {{ count }}",
+    "turns": "回合: {{ count }}"
+  },
+  "game": {
+    "difficulties": {
+      "easy": "简单",
+      "normal": "普通",
+      "hard": "困难",
+      "extreme": "极限"
+    },
+    "themes": {
+      "animals": "动物",
+      "faces": "表情",
+      "food": "食物",
+      "objects": "物品",
+      "plants": "植物",
+      "symbols": "符号",
+      "vehicles": "交通工具",
+      "activities": "活动"
+    }
+  },
+  "statuses": {
+    "success": "成功",
+    "error": "错误"
+  },
+  "sounds": {
+    "loaded": "声音已加载: {{ url }}",
+    "failed": "声音加载失败: {{ url }}"
+  },
+  "errors": {
+    "ui": {
+      "back": "返回"
+    },
+    "http": {
+      "400": "错误请求",
+      "401": "未授权",
+      "403": "禁止访问",
+      "404": "页面未找到",
+      "405": "方法不允许",
+      "409": "冲突",
+      "422": "无法处理的实体",
+      "429": "请求过多",
+      "500": "服务器内部错误",
+      "502": "错误网关",
+      "503": "服务不可用",
+      "504": "网关超时"
+    }
+  }
+}

@@ -6,7 +6,7 @@ export default {
       easy: { color: "bg-emerald-400", cards: 4 },
       normal: { color: "bg-sky-500", cards: 16 },
       hard: { color: "bg-rose-500", cards: 30 },
-      extreme: { color: "bg-purple-900", cards: 52 },
+      extreme: { color: "bg-purple-900", cards: 40 },
     },
     themes: {
       animals: { color: "bg-emerald-400", items: 30 },
