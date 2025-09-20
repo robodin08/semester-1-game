@@ -36,5 +36,4 @@ playButton.addEventListener("click", () => {
 });
 
 // multiplayerButton.addEventListener("click", () => {
-
 // });
