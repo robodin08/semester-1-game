@@ -6,7 +6,8 @@
   "menu": {
     "chooseTheme": "Kies Thema",
     "chooseDifficulty": "Kies Moeilijkheidsgraad",
-    "play": "Spelen"
+    "play": "Spelen",
+    "multiplayer": "Multiplayer"
   },
   "play": {
     "timer": "Tijd: {{ time }}",
@@ -31,13 +32,41 @@
       "activities": "Activiteiten"
     }
   },
-  "statuses": {
-    "success": "Succes",
-    "error": "Fout"
-  },
-  "sounds": {
-    "loaded": "Geluid geladen: {{ url }}",
-    "failed": "Het laden van het geluid is mislukt: {{ url }}"
+  "notifications": {
+    "sockets": {
+      "connectionLost": {
+        "title": "Verbinding verloren",
+        "body": "Je hebt de verbinding met de server verloren. Controleer je internet of probeer opnieuw verbinding te maken."
+      },
+      "reconnected": {
+        "title": "Opnieuw verbonden",
+        "body": "Je verbinding met de server is hersteld. Je kunt doorgaan met spelen."
+      },
+      "sessionExpired": {
+        "title": "Sessie verlopen",
+        "body": "Je sessie is om veiligheidsredenen verlopen. De pagina wordt binnenkort opnieuw geladen."
+      }
+    },
+    "sounds": {
+      "loaded": {
+        "title": "Succes",
+        "body": "Geluid geladen: {{ url }}"
+      },
+      "failed": {
+        "title": "Fout",
+        "body": "Het laden van het geluid is mislukt: {{ url }}"
+      }
+    },
+    "cardClick": {
+      "connectionError": {
+        "title": "Verbindingsfout",
+        "body": "Kan niet communiceren met de server. Probeer het opnieuw."
+      },
+      "noResponse": {
+        "title": "Geen reactie",
+        "body": "De server reageerde niet. Probeer het opnieuw."
+      }
+    }
   },
   "errors": {
     "ui": {

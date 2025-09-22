@@ -1,80 +1,64 @@
 class CreateSound {
   constructor({
-    url,
+    src,
     volume = 1,
     startAt = 0,
     notifications = { error: true, success: false },
-  }) {
-    this.url = url;
-    this.volume = volume;
-    this.startAt = startAt;
+  } = {}) {
+    this.src = src;
+    this.defaultVolume = volume;
+    this.defaultStart = startAt;
     this.notifications = notifications;
+    this.audio = new Audio(src);
+    this.audio.preload = "auto";
+    this.audio.volume = volume;
+    this.audio.currentTime = startAt;
 
-    // Create an AudioContext
-    this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-    // Gain node for volume control
-    this.gainNode = this.audioCtx.createGain();
-    this.gainNode.gain.value = volume;
-    this.gainNode.connect(this.audioCtx.destination);
-
-    // Load and decode audio
-    this.ready = fetch(url)
-      .then((res) => res.arrayBuffer())
-      .then((arrayBuffer) => this.audioCtx.decodeAudioData(arrayBuffer))
-      .then((buffer) => {
-        this.buffer = buffer;
-
-        if (this.notifications.success && typeof notification === "function") {
-          notification({
-            title: t("statuses.success"),
-            body: t("sounds.loaded", { url: this.url }),
+    this.audio.addEventListener(
+      "canplaythrough",
+      () => {
+        if (
+          this.notifications.success &&
+          typeof window.notification === "function"
+        ) {
+          window.notification({
+            title: t("notifications.sounds.loaded.title"),
+            body: t("notifications.sounds.loaded.body", { url: this.src }),
             type: "success",
           });
         }
+      },
+      { once: true },
+    );
 
-        return true;
-      })
-      .catch((e) => {
-        console.error("Audio load/decode error:", e);
-
-        if (this.notifications.error && typeof notification === "function") {
-          notification({
-            title: t("statuses.error"),
-            body: t("sounds.failed", { url: this.url }),
+    this.audio.addEventListener(
+      "error",
+      () => {
+        if (
+          this.notifications.error &&
+          typeof window.notification === "function"
+        ) {
+          window.notification({
+            title: t("notifications.sounds.failed.title"),
+            body: t("notifications.sounds.failed.body", { url: this.src }),
             type: "error",
           });
         }
-
-        return false;
-      });
+      },
+      { once: true },
+    );
   }
 
-  async play({ volume, startAt, loop = false } = {}) {
-    const loaded = await this.ready;
-    if (!loaded) return false;
-
-    const source = this.audioCtx.createBufferSource();
-    source.buffer = this.buffer;
-    source.loop = loop;
-
-    // Connect to a gain node for individual volume control
-    const gain = this.audioCtx.createGain();
-    gain.gain.value = volume ?? this.volume;
-    source.connect(gain).connect(this.audioCtx.destination);
-
-    // Start at specific time
-    source.start(0, startAt ?? this.startAt);
-
-    return new Promise((resolve) => {
-      source.onended = () => {
-        resolve(true);
-      };
-    });
-  }
-
-  setVolume(volume) {
-    this.volume = volume;
-    this.gainNode.gain.value = volume;
+  play({
+    volume = this.defaultVolume,
+    startAt = this.defaultStart,
+    loop = false,
+  } = {}) {
+    const soundClone = this.audio.cloneNode();
+    soundClone.volume = volume;
+    soundClone.currentTime = startAt;
+    soundClone.loop = loop;
+    soundClone.play().catch((e) => console.error("Playback failed:", e));
+    return soundClone;
   }
 }

@@ -1,6 +1,5 @@
 export default {
   port: 3000,
-  locales: ["en", "nl"],
   game: {
     difficulties: {
       easy: { color: "bg-emerald-400", cards: 4 },
@@ -18,9 +17,5 @@ export default {
       vehicles: { color: "bg-orange-400", items: 30 },
       activities: { color: "bg-indigo-500", items: 30 },
     },
-  },
-  sessions: {
-    expire: 30 * 60 * 1000, // expire session after Xms of inactivity
-    delay: 5 * 1000, // check sessions after each Xms
-  },
+  }
 };

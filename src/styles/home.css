@@ -21,11 +21,19 @@
            transition-transform duration-200 cursor-pointer;
   }
 
-  .card-play {
-    @apply bg-yellow-400 text-white font-extrabold text-2xl md:text-3xl 
+  .card {
+    @apply text-white font-extrabold text-2xl md:text-3xl 
            py-4 px-12 rounded-xl shadow-lg 
            hover:shadow-xl hover:scale-105 
            transition-transform duration-200 cursor-pointer;
+  }
+
+  .card-multiplayer {
+    @apply bg-pink-400 mt-6;
+  }
+
+  .card-play {
+    @apply bg-yellow-400;
   }
 
   .selected {

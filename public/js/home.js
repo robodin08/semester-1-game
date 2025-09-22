@@ -27,13 +27,21 @@ themeButtons.forEach((button, i) => {
 difficultyButtons[1].click();
 themeButtons[0].click();
 
-playButton.addEventListener("click", () => {
-  if (selectedDifficulty === null || selectedTheme === null) return;
-  const difficulty =
-    difficultyButtons[selectedDifficulty].getAttribute("data-difficulty");
+function getSelectedParams() {
+  if (selectedDifficulty === null || selectedTheme === null) return null;
+  const difficulty = difficultyButtons[selectedDifficulty].getAttribute("data-difficulty");
   const theme = themeButtons[selectedTheme].getAttribute("data-theme");
-  window.location.href = `/play/${theme}/${difficulty}`;
+  return { difficulty, theme };
+}
+
+playButton.addEventListener("click", () => {
+  const params = getSelectedParams();
+  if (!params) return;
+  window.location.href = `/play/${params.theme}/${params.difficulty}`;
 });
 
-// multiplayerButton.addEventListener("click", () => {
-// });
+multiplayerButton.addEventListener("click", () => {
+  const params = getSelectedParams();
+  if (!params) return;
+  window.location.href = `/play/${params.theme}/${params.difficulty}?m`;
+});

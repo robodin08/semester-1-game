@@ -6,7 +6,8 @@
   "menu": {
     "chooseTheme": "Choose Theme",
     "chooseDifficulty": "Choose Difficulty",
-    "play": "Play"
+    "play": "Play",
+    "multiplayer": "Multiplayer"
   },
   "play": {
     "timer": "Time: {{ time }}",
@@ -31,13 +32,41 @@
       "activities": "Activities"
     }
   },
-  "statuses": {
-    "success": "Success",
-    "error": "Error"
-  },
-  "sounds": {
-    "loaded": "Sound loaded: {{ url }}",
-    "failed": "Failed to load sound: {{ url }}"
+  "notifications": {
+    "sockets": {
+      "connectionLost": {
+        "title": "Connection Lost",
+        "body": "You have lost connection to the server. Please check your internet or try reconnecting."
+      },
+      "reconnected": {
+        "title": "Reconnected",
+        "body": "Your connection to the server has been restored. You can continue playing."
+      },
+      "sessionExpired": {
+        "title": "Session Expired",
+        "body": "Your session has expired for security reasons. The page will reload shortly."
+      }
+    },
+    "sounds": {
+      "loaded": {
+        "title": "Success",
+        "body": "Sound loaded: {{ url }}"
+      },
+      "failed": {
+        "title": "Error",
+        "body": "Failed to load sound: {{ url }}"
+      }
+    },
+    "cardClick": {
+      "connectionError": {
+        "title": "Connection Error",
+        "body": "Could not communicate with the server. Please try again."
+      },
+      "noResponse": {
+        "title": "No Response",
+        "body": "The server did not respond. Please try again."
+      }
+    }
   },
   "errors": {
     "ui": {

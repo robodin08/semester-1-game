@@ -16,9 +16,4 @@ export default function (app) {
       .map((word) => word[0].toUpperCase() + word.slice(1))
       .join(" ");
   });
-
-  env.addFilter("url_encode", function (str) {
-    if (!str) return "";
-    return encodeURIComponent(str);
-  });
 }

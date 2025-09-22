@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="{{ locale }}">
   <head>
     <meta charset="UTF-8" />
@@ -39,12 +39,47 @@
 
     <!-- Important Scripts -->
     {% include "components/global.njk" %}
-    <script src="/js/components/loadScript.js"></script>
+    <script src="/js/libs/tailwindplus.min.js" type="module"></script>
+    <script src="/js/libs/socket.io.min.js"></script>
+    <script src=" https://cdn.jsdelivr.net/npm/howler@2.2.4/dist/howler.min.js "></script>
+    <script src="/js/libs/i18next.min.js"></script>
+
     <script src="/js/components/i18next.js"></script>
   </head>
 
   <body class="bg-amber-100 p-4">
-    {% include "components/languages.html" %}
+    {% include "components/languages.html" %} {% if gameId %}
+    <div
+      id="multiplayer-overlay"
+      class="fixed inset-0 bg-amber-100 bg-opacity-90 flex items-center justify-center z-50 backdrop-blur-sm"
+    >
+      <div
+        class="bg-white p-8 rounded-2xl text-center max-w-md mx-4 shadow-2xl transform transition-all duration-300 scale-95 hover:scale-100"
+      >
+        <h2 class="text-3xl font-extrabold mb-4 text-blue-600">
+          Waiting for an Opponent
+        </h2>
+        <p class="mb-4 text-gray-700 text-base">
+          Share this link with someone to start playing:
+        </p>
+        <div class="flex items-center mb-4">
+          <input
+            id="multiplayer-link"
+            type="text"
+            readonly
+            value="{{ baseURl }}/play/{{ gameId }}"
+            class="w-full p-3 text-center border border-gray-300 rounded-l-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition"
+          />
+          <button
+            onclick="navigator.clipboard.writeText(document.getElementById('multiplayer-link').value)"
+            class="px-4 py-3 bg-blue-500 text-white rounded-r-lg hover:bg-blue-600 transition cursor-pointer"
+          >
+            Copy
+          </button>
+        </div>
+      </div>
+    </div>
+    {% endif %}
 
     <div class="flex flex-col items-center">
       <h1 class="text-4xl md:text-5xl font-extrabold text-blue-400 mt-4">
@@ -80,14 +115,14 @@
     </div>
 
     <!-- Scripts -->
-    <script src="/js/libs/tailwindplus.min.js"></script>
-
     <script src="/js/components/utils.js"></script>
     <script src="/js/components/fetch.js"></script>
     <script src="/js/components/timer.js"></script>
     <script src="/js/components/sound.js"></script>
-    <script src="/js/components/confetti.js"></script>
     <script src="/js/components/notifications.js"></script>
+
+    <script src="/js/libs/confetti.min.js"></script>
+    <script src="/js/components/confetti.js"></script>
 
     <script src="/js/play.js"></script>
   </body>
