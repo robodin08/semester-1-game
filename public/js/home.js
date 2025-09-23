@@ -29,7 +29,8 @@ themeButtons[0].click();
 
 function getSelectedParams() {
   if (selectedDifficulty === null || selectedTheme === null) return null;
-  const difficulty = difficultyButtons[selectedDifficulty].getAttribute("data-difficulty");
+  const difficulty =
+    difficultyButtons[selectedDifficulty].getAttribute("data-difficulty");
   const theme = themeButtons[selectedTheme].getAttribute("data-theme");
   return { difficulty, theme };
 }

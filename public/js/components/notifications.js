@@ -26,7 +26,7 @@ function notification({
   el.innerHTML = `
         ${icon ? `<div class="flex-shrink-0"><img src="${icon}" class="h-6 w-6 object-contain" alt="icon"></div>` : ""}
         <div class="flex-1 text-sm">
-            ${title ? `<div class="font-semibold mb-1">${title}</div>` : ""}
+            ${title ? `<div class="font-semibold mb-1 capitalize">${title}</div>` : ""}
             <div>${body}</div>
         </div>
         <button class="text-2xl text-gray-400 hover:text-gray-600" aria-label="Close notification">&times;</button>

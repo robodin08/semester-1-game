@@ -12,7 +12,14 @@
   "play": {
     "timer": "Tijd: {{ time }}",
     "pairs": "Paren: {{ count }}",
-    "turns": "Beurten: {{ count }}"
+    "turns": "Beurten: {{ count }}",
+    "you": "Jij: {{ count }}",
+    "opponent": "Tegenstander: {{ count }}",
+    "multiplayer": {
+      "title": "Wachten op een tegenstander",
+      "description": "Deel deze link met iemand om te beginnen met spelen:",
+      "copyButton": "kopiëren"
+    }
   },
   "game": {
     "difficulties": {
@@ -65,13 +72,21 @@
       "noResponse": {
         "title": "Geen reactie",
         "body": "De server reageerde niet. Probeer het opnieuw."
+      },
+      "notOnMove": {
+        "title": "Niet Jouw Beurt",
+        "body": "Je moet wachten tot je tegenstander een zet doet."
+      },
+      "onMove": {
+        "title": "Het is jouw beurt!",
+        "body": "Aan jou de beurt. Kies een kaart en doe je zet!"
       }
     }
   },
+  "ui": {
+    "home": "Ga naar Home"
+  },
   "errors": {
-    "ui": {
-      "back": "Ga terug"
-    },
     "http": {
       "400": "Ongeldig verzoek",
       "401": "Niet geautoriseerd",

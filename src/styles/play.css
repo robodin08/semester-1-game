@@ -4,6 +4,7 @@
 @source "../../public/js/play.js";
 
 @source "../../views/components/languages.html";
+@source "../../views/components/popups.html";
 
 @layer components {
   .grid-4 {

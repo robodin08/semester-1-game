@@ -3,27 +3,25 @@ function formatMMSS(clock) {
   const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, "0");
   const seconds = String(totalSeconds % 60).padStart(2, "0");
   const milliseconds = String(Math.floor((clock % 1000) / 100));
-
   return `${minutes}:${seconds}.${milliseconds}`;
 }
 
-function createTimer(spanElement, startedAt = Date.now()) {
-  let clock = 0;
-  let offset = startedAt;
+function updateLabel(el, time) {
+  el.textContent = t("play.timer", { time: formatMMSS(time) });
+}
 
-  function delta() {
+function createTimer(el, startedAt) {
+  function update() {
     const now = Date.now();
-    const d = now - offset;
-    offset = now;
-    return d;
+    const elapsed = now - startedAt;
+    updateLabel(el, elapsed);
   }
 
-  const interval = setInterval(() => {
-    clock += delta();
-    spanElement.textContent = t("play.timer", { time: formatMMSS(clock) });
-  }, 1);
+  update();
+  const interval = setInterval(update, 100);
 
-  return () => {
+  return (time) => {
     clearInterval(interval);
+    updateLabel(el, time);
   };
 }

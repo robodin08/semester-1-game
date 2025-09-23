@@ -58,7 +58,9 @@ class CreateSound {
     soundClone.volume = volume;
     soundClone.currentTime = startAt;
     soundClone.loop = loop;
-    soundClone.play().catch((e) => console.error("Playback failed:", e));
-    return soundClone;
+
+    const res = soundClone.play();
+    res.catch((e) => console.error("Playback failed:", e));
+    return res;
   }
 }

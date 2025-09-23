@@ -29,14 +29,23 @@ io.on("connection", (socket) => {
 
   socket.join(gameId);
 
-  function events(event, data) {
-    socket.to(gameId).emit(event, data);
-    socket.emit(event, data);
+  // 0 - sender; 1 - opponent; 2 both;
+  function event(eventName, data, i = 2) {
+    if (i === 0) {
+      socket.emit(eventName, data);
+    } else if (i === 1) {
+      socket.to(gameId).emit(eventName, data);
+    } else if (i === 2) {
+      io.to(gameId).emit(eventName, data);
+    }
   }
 
-  if (game._users === game._maxUsers) {
-    events("gameFull");
+  if (game._users === game._maxUsers && !game.memory.started_at) {
+    event("onMove", { userGameId: 0, isFirst: true });
     game.memory.can_flip = true;
+  } else if (game.memory.started_at) {
+    event("onMove", { userGameId: game.memory.current_user, isFirst: true }, 0);
+    event("startTimer", { startedAt: game.memory.started_at }, 0);
   }
 
   socket.onAny(() => {
@@ -49,20 +58,22 @@ io.on("connection", (socket) => {
 
   socket.on("flip", (cardIndex, callback) => {
     try {
-      game.memory.flip(cardIndex, gameUserId, events);
+      game.memory.flip(cardIndex, gameUserId, event);
       callback({
         success: true,
       });
     } catch (error) {
       console.error(error);
       callback({
-        success: false, error: error.message
+        success: false,
+        error: error.message,
       });
     }
   });
 
   socket.on("disconnect", () => {
     console.log("user disconnected");
+    game.deleteUser(userId);
   });
 });
 
@@ -85,22 +96,29 @@ app.get("/play/:gameId", (req, res) => {
   const { gameId } = req.params;
 
   const game = gameManager.getGame(gameId);
-  if (!game)
-    throw createError(404, "Game does not exist.");
+  if (!game) throw createError(404, "Game does not exist.");
 
-  const userId = game.addUser();
-
-  console.log(userId, game);
+  const [userId, gameUserId] = game.addUser();
 
   res.render("play", {
     cards: game.memory.cards,
+    state: game.memory.getState(),
     difficulty: game.memory.difficulty,
-    gameId: game._maxUsers === 1 ? null : gameId,
+    gameId: game._users === game._maxUsers ? null : gameId,
+    scores:
+      game._maxUsers > 1
+        ? {
+            user0: game.memory[gameUserId].pairs,
+            user1: game.memory[gameUserId === 0 ? 1 : 0].pairs,
+          }
+        : null,
     global: {
       userId,
+      gameUserId,
       translations: req.filterCatalog([
         "play.*",
         "notifications.*",
+        "popups.*",
       ]),
     },
   });
@@ -111,28 +129,20 @@ app.get("/play/:theme/:difficulty", (req, res, next) => {
     const { theme, difficulty } = req.params;
     const multiplayer = Object.hasOwn(req.query, "m");
 
-    const memory = new Memory({ difficulty, theme, shuffle: false, users: multiplayer ? 2 : 1 });
+    const memory = new Memory({
+      difficulty,
+      theme,
+      shuffle: false,
+      users: multiplayer ? 2 : 1,
+    });
 
     const game = {
       memory,
-    }
+    };
 
     const gameId = gameManager.createGame(game, memory.users);
 
     res.redirect(`/play/${gameId}`);
-
-    // res.render("play", {
-    //   cards: memory.cards,
-    //   difficulty,
-    //   multiplayerId: session.multiplayerId,
-    //   global: {
-    //     sessionId,
-    //     translations: req.filterCatalog([
-    //       "play.*",
-    //       "notifications.*",
-    //     ]),
-    //   },
-    // });
   } catch (error) {
     next(error);
   }

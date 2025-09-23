@@ -4,7 +4,7 @@ import createError from "./error.js";
 function createRng(seed) {
   let t = seed;
   return function () {
-    t += 0x6D2B79F5;
+    t += 0x6d2b79f5;
     let r = Math.imul(t ^ (t >>> 15), 1 | t);
     r ^= r + Math.imul(r ^ (r >>> 7), 61 | r);
     return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
@@ -32,9 +32,13 @@ function difficultyExists(difficulty) {
 }
 
 export default class Memory {
-  constructor(
-    { difficulty = "normal", theme = "faces", shuffle = true, seed = Date.now(), users = 1 }
-  ) {
+  constructor({
+    difficulty = "normal",
+    theme = "faces",
+    shuffle = true,
+    seed = Date.now(),
+    users = 1,
+  }) {
     if (!difficultyExists(difficulty))
       throw createError(404, `Difficulty "${difficulty}" does not exist.`);
     if (!themeExists(theme))
@@ -60,12 +64,12 @@ export default class Memory {
       shuffleLevel(this.level, this.rng);
     }
 
-    this.level = this.level.map(i => [i, 0]);
+    this.level = this.level.map((i) => [i, 0]);
     /*
     [ [ imageIndex, state (0=normal 1=flipped 2=guessed) ] ]
     */
 
-    this.users = users
+    this.users = users;
     this.shuffle = shuffle;
     this.difficulty = difficulty;
     this.theme = theme;
@@ -82,18 +86,17 @@ export default class Memory {
     this.last_card_index = null;
     this.started_at = null;
     this.can_flip = false;
+    this.current_user = 0;
   }
 
   getCardImage(cardIndex) {
     return `/assets/themes/${this.theme}/${this.level[cardIndex][0]}.svg`;
   }
 
-  flip(cardIndex, user = 0, events = {}) {
-    if (!this.can_flip)
-      throw new Error("Game is not started yet.");
+  flip(cardIndex, user = 0, event = {}) {
+    if (!this.can_flip) throw new Error("Game is not started yet.");
 
-    if (!this[user].can_flip)
-      throw new Error("You cannot flip a card.");
+    if (!this[user].can_flip) throw new Error("You cannot flip a card.");
 
     if (cardIndex < 0 || cardIndex >= this.cards)
       throw new Error("Invalid cardIndex.");
@@ -105,11 +108,14 @@ export default class Memory {
 
     if (!this.started_at) {
       this.started_at = Date.now();
-      events("startTimer", { started_at: this.started_at });
+      event("startTimer", { startedAt: this.started_at });
     }
 
     this.level[cardIndex][1] = 1;
-    events("flipUiCard", { i: cardIndex, image: `/assets/themes/${this.theme}/${this.level[cardIndex][0]}.svg` });
+    event("flipUiCard", {
+      i: cardIndex,
+      image: `/assets/themes/${this.theme}/${this.level[cardIndex][0]}.svg`,
+    });
 
     if (this.is_first_flip) {
       this.last_card_index = cardIndex;
@@ -121,7 +127,8 @@ export default class Memory {
       const [cardImageIndex, cardState] = this.level[cardIndex];
       const [lastImageIndex, lastState] = this.level[this.last_card_index];
 
-      const isMatch = cardImageIndex === lastImageIndex && cardState === 1 && lastState === 1;
+      const isMatch =
+        cardImageIndex === lastImageIndex && cardState === 1 && lastState === 1;
       if (isMatch) {
         this[user].pairs++;
       }
@@ -129,24 +136,57 @@ export default class Memory {
       this.level[cardIndex][1] = isMatch ? 2 : 0;
       this.level[this.last_card_index][1] = isMatch ? 2 : 0;
 
-      events("updateStats", { turns: this[user].turns, pairs: this[user].pairs, isMatch, cardIndex, lastCardIndex: this.last_card_index });
+      if (this.users === 1) {
+        event("updateStats", {
+          turns: this[user].turns,
+          pairs: this[user].pairs,
+          isMatch,
+          cardIndex,
+          lastCardIndex: this.last_card_index,
+        });
+      } else {
+        event("updateStats", {
+          user0: this[0].pairs,
+          user1: this[1].pairs,
+          isMatch,
+          cardIndex,
+          lastCardIndex: this.last_card_index,
+        });
+      }
 
-      const allMatched = this.level.every(card => card[1] === 2);
+      const allMatched = this.level.every((card) => card[1] === 2);
 
       if (allMatched) {
-        console.log("🎉 All cards matched!");
-        events("win");
+        console.log("🎉 All cards matched!", Date.now() - this.started_at);
+
+        event("end", {
+          time: Date.now() - this.started_at,
+          user0: this[0].pairs,
+          user1: this.users > 1 ? this[1].pairs : null,
+        });
       }
 
       this.last_card_index = null;
-      this[(user + 1) % this.users].can_flip = true;
       this.is_first_flip = true;
 
-      
+      if (isMatch) {
+        this[user].can_flip = true;
+      } else {
+        let newUser = (user + 1) % this.users;
+        this[newUser].can_flip = true;
+        this.current_user = newUser;
+        if (this.users > 1) event("onMove", { userGameId: newUser });
+      }
     }
   }
 
-  // clone() {
-  //   return new Memory({ difficulty: this.difficulty, theme: this.theme, shuffle: this.shuffle, seed: this.seed });
-  // }
+  getState() {
+    return this.level.map(([_, state], cardIndex) => ({
+      isPair: state === 2,
+      image:
+        state >= 1
+          ? `/assets/themes/${this.theme}/${this.level[cardIndex][0]}.svg`
+          : null,
+    }));
+  }
 }

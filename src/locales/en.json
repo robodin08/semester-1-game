@@ -12,7 +12,14 @@
   "play": {
     "timer": "Time: {{ time }}",
     "pairs": "Pairs: {{ count }}",
-    "turns": "Turns: {{ count }}"
+    "turns": "Turns: {{ count }}",
+    "you": "You: {{ count }}",
+    "opponent": "Opponent: {{ count }}",
+    "multiplayer": {
+      "title": "Waiting for an opponent",
+      "description": "Share this link with someone to start playing:",
+      "copyButton": "Copy"
+    }
   },
   "game": {
     "difficulties": {
@@ -30,6 +37,20 @@
       "symbols": "Symbols",
       "vehicles": "Vehicles",
       "activities": "Activities"
+    }
+  },
+  "popups": {
+    "win": {
+      "title": "🎉 You Won!",
+      "message": "Congratulations! You successfully completed the game."
+    },
+    "lose": {
+      "title": "💔 You Lost!",
+      "message": "Don't worry! Try again and you might win next time."
+    },
+    "tie": {
+      "title": "🤝 It's a Tie!",
+      "message": "Both sides performed equally well. Try again to see who wins!"
     }
   },
   "notifications": {
@@ -50,11 +71,11 @@
     "sounds": {
       "loaded": {
         "title": "Success",
-        "body": "Sound loaded: {{ url }}"
+        "body": "Sound loaded: {{ url }}."
       },
       "failed": {
         "title": "Error",
-        "body": "Failed to load sound: {{ url }}"
+        "body": "Failed to load sound: {{ url }}."
       }
     },
     "cardClick": {
@@ -65,13 +86,21 @@
       "noResponse": {
         "title": "No Response",
         "body": "The server did not respond. Please try again."
+      },
+      "notOnMove": {
+        "title": "Not Your Turn",
+        "body": "You need to wait until your opponent makes a move."
+      },
+      "onMove": {
+        "title": "Your Turn!",
+        "body": "It's your move. Pick a card and make your play!"
       }
     }
   },
+  "ui": {
+    "home": "Go home"
+  },
   "errors": {
-    "ui": {
-      "back": "Go back"
-    },
     "http": {
       "400": "Bad Request",
       "401": "Unauthorized",

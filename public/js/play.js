@@ -1,13 +1,19 @@
-const sessionId = window.sessionId;
+const userId = window.userId;
+const user = window.gameUserId;
 
-let canFlip = false;
-let isFirstFlip = true;
+let canFlip = true;
+let isOnMove = false;
 let stopTimer = null;
 
 const cards = document.querySelectorAll("#memory-card");
 
 const multiplayerOverlay = document.getElementById("multiplayer-overlay");
 const timerElement = document.getElementById("timer");
+
+function updateStats(stat, count) {
+  const el = document.getElementById(stat);
+  if (el) el.textContent = t(`play.${stat}`, { count });
+}
 
 const winSound = new CreateSound({
   src: "/assets/sounds/win.mp3",
@@ -34,14 +40,32 @@ const successSound = new CreateSound({
 
 const socket = io({
   auth: {
-    uid: window.userId,
-    // mid: window.multiplayerId,
+    uid: userId,
   },
 });
 
-socket.on("gameFull", () => {
-  canFlip = true;
-  multiplayerOverlay?.classList.add("!hidden");
+socket.on("onMove", ({ userGameId, isFirst = false }) => {
+  console.log(userGameId, user);
+
+  if (isFirst) {
+    multiplayerOverlay?.classList.add("!hidden");
+  }
+
+  if (userGameId === user) {
+    isOnMove = true;
+    console.log(true, "You are ON the move");
+    document.body.classList.remove("!bg-gray-200");
+
+    notification({
+      title: t("notifications.cardClick.onMove.title"),
+      body: t("notifications.cardClick.onMove.body"),
+      type: "success",
+    });
+  } else {
+    isOnMove = false;
+    console.log(false, "You are NOT on the move");
+    document.body.classList.add("!bg-gray-200");
+  }
 });
 
 let wasConnectedBefore = false;
@@ -78,61 +102,88 @@ socket.on("expired", async () => {
 
 window.addEventListener("beforeunload", () => socket.off());
 
-function updateStats(stat, count) {
-  const el = document.getElementById(stat);
-  if (el) el.textContent = t(`play.${stat}`, { count });
-}
-
 socket.on("flipUiCard", ({ i, image }) => {
   console.log("flipUiCard");
   const card = cards[i];
-  if (!card.querySelector("#image").src) {
+  if (card.querySelector("#image").src !== "") {
     card.querySelector("#image").src = image;
   }
 
   card.classList.add("card-flip");
   cardFlipSound.play();
-  if (isFirstFlip) canFlip = true;
-});
 
-socket.on("updateStats", async ({ turns, pairs, isMatch, cardIndex, lastCardIndex }) => {
-  console.log("updateStats");
-  await delay(200);
-
-  const card = cards[cardIndex];
-  const lastCard = cards[lastCardIndex];
-
-  if (isMatch) {
-    updateStats("pairs", pairs);
-    successSound.play();
-    card.classList.add("card-pairs");
-    lastCard.classList.add("card-pairs");
-  } else {
-    failFlipSound.play();
-    await delay(1000);
-    cardFlipSound.play();
-    card.classList.remove("card-flip");
-    lastCard.classList.remove("card-flip");
-  }
-
-  updateStats("turns", turns);
-
-  isFirstFlip = true;
   canFlip = true;
 });
 
-socket.on("startTimer", ({ started_at }) => {
-  stopTimer = createTimer(timerElement, started_at);
+socket.on(
+  "updateStats",
+  async ({ turns, pairs, user0, user1, isMatch, cardIndex, lastCardIndex }) => {
+    console.log("updateStats");
+    await delay(200);
+
+    const card = cards[cardIndex];
+    const lastCard = cards[lastCardIndex];
+
+    console.log(user, user0, user1);
+
+    if (isMatch) {
+      if (pairs) updateStats("pairs", pairs);
+      if (user === 0) {
+        updateStats("you", user0);
+        updateStats("opponent", user1);
+      } else {
+        updateStats("you", user1);
+        updateStats("opponent", user0);
+      }
+      successSound.play();
+      card.classList.add("card-pairs");
+      lastCard.classList.add("card-pairs");
+    } else {
+      failFlipSound.play();
+      await delay(1000);
+      cardFlipSound.play();
+      card.classList.remove("card-flip");
+      lastCard.classList.remove("card-flip");
+    }
+
+    if (turns) updateStats("turns", turns);
+  },
+);
+
+socket.on("startTimer", ({ startedAt }) => {
+  if (stopTimer) return;
+  stopTimer = createTimer(timerElement, startedAt);
 });
 
-socket.on("win", () => {
+socket.on("end", ({ time, user0, user1 = 0 }) => {
   console.log("LEVEL COMPLETED");
-  winSound.play();
   fireConfettiCannon();
-  stopTimer();
+  stopTimer(time);
+
+  let state;
+  if (user0 === user1) {
+    state = "tie";
+  } else {
+    const isUser0 = user === 0;
+    const didWin = isUser0 ? user0 > user1 : user1 > user0;
+    state = didWin ? "win" : "lose";
+  }
+
+  showPopUp(state);
+
+  winSound.play();
 });
 
 async function onCardClick(i) {
+  if (!isOnMove) {
+    notification({
+      title: t("notifications.cardClick.notOnMove.title"),
+      body: t("notifications.cardClick.notOnMove.body"),
+      type: "error",
+    });
+    return;
+  }
+
   const card = cards[i];
   if (!canFlip || card.classList.contains("card-flip") || socket.disconnected)
     return;
@@ -152,9 +203,9 @@ async function onCardClick(i) {
     return;
   }
 
-  console.log(data);
+  canFlip = true;
 
-  if (isFirstFlip) isFirstFlip = false;
+  console.log(data);
 
   if (!data && socket.connected) {
     notification({
@@ -162,13 +213,11 @@ async function onCardClick(i) {
       body: t("notifications.cardClick.noResponse.body"),
       type: "error",
     });
-    canFlip = true;
     return;
   }
 
   if (!data?.success) {
     console.error(data?.error);
-    canFlip = true;
     return;
   }
 }

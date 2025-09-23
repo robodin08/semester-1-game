@@ -17,5 +17,5 @@ export default {
       vehicles: { color: "bg-orange-400", items: 30 },
       activities: { color: "bg-indigo-500", items: 30 },
     },
-  }
+  },
 };

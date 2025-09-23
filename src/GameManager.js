@@ -19,6 +19,7 @@ class GameManager {
     const gameId = createShortUUID();
 
     game._maxUsers = users;
+    game._freeSlots = new Set([...Array(game._maxUsers).keys()]);
     game._users = 0;
     game._expired = false;
 
@@ -31,10 +32,26 @@ class GameManager {
       if (game._users >= game._maxUsers) {
         throw createError(403, "Game is full.");
       }
+      const [gameUserId] = game._freeSlots;
+      game._freeSlots.delete(gameUserId);
+
       const userId = createUUID();
-      const gameUserId = game._users; // 0 for first, 1 for second, etc.
       this.users.set(userId, { gameId, gameUserId, isConnected: false });
       game._users++;
+      return [userId, gameUserId];
+    };
+
+    game.deleteUser = (userId) => {
+      const user = this.users.get(userId);
+      if (!user) {
+        throw createError(404, "User not found in this game.");
+      }
+
+      game._freeSlots.add(user.gameUserId);
+
+      this.users.delete(userId);
+      game._users--;
+
       return userId;
     };
 
