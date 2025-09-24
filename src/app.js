@@ -3,6 +3,7 @@ import { createServer } from "node:http";
 import { Server } from "socket.io";
 
 import gameManager from "./GameManager.js";
+import AiManager from "./AiManager.js";
 import Memory from "./memory.js";
 import config from "./config.js";
 import createError from "./error.js";
@@ -35,10 +36,15 @@ io.on("connection", (socket) => {
       socket.emit(eventName, data);
     } else if (i === 1) {
       socket.to(gameId).emit(eventName, data);
+      if (ai) aiManager.event(eventName, data);
     } else if (i === 2) {
       io.to(gameId).emit(eventName, data);
+      if (ai) aiManager.event(eventName, data);
     }
   }
+
+  const ai = game.ai;
+  const aiManager = ai ? new AiManager(game, event, .7) : null;
 
   if (game._users === game._maxUsers && !game.memory.started_at) {
     event("onMove", { userGameId: 0, isFirst: true });
@@ -109,7 +115,7 @@ app.get("/play/:gameId", (req, res) => {
     difficulty: game.memory.difficulty,
     gameId: game._users === game._maxUsers ? null : gameId,
     scores:
-      game._maxUsers > 1
+      game.memory.users > 1
         ? {
           user0: game.memory[gameUserId].pairs,
           user1: game.memory[gameUserId === 0 ? 1 : 0].pairs,
@@ -131,19 +137,23 @@ app.get("/play/:theme/:difficulty", (req, res, next) => {
   try {
     const { theme, difficulty } = req.params;
     const multiplayer = Object.hasOwn(req.query, "m");
+    let ai = Object.hasOwn(req.query, "a");
+
+    if (multiplayer) ai = false;
 
     const memory = new Memory({
       difficulty,
       theme,
       shuffle: true,
-      users: multiplayer ? 2 : 1,
+      users: multiplayer || ai ? 2 : 1,
     });
 
     const game = {
       memory,
+      ai,
     };
 
-    const gameId = gameManager.createGame(game, memory.users);
+    const gameId = gameManager.createGame(game, multiplayer ? 2 : 1);
 
     res.redirect(`/play/${gameId}`);
   } catch (error) {

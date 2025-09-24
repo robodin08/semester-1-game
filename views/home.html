@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="{{ locale }}">
   <head>
     <meta charset="UTF-8" />
@@ -33,7 +33,10 @@
 
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full mb-10">
           {% for theme in themes %}
-          <button class="s-click theme-btn {{theme.color}}" data-theme="{{theme.name}}">
+          <button
+            class="s-click btn theme-btn {{theme.color}}"
+            data-theme="{{theme.name}}"
+          >
             <img
               src="/assets/themes/{{theme.name}}/0.svg"
               class="w-12 h-12 mx-auto mb-2"
@@ -52,7 +55,7 @@
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full mb-8">
           {% for difficulty in difficulties %}
           <button
-            class="s-click difficulty-btn {{difficulty.color}}"
+            class="s-click btn difficulty-btn {{difficulty.color}}"
             data-difficulty="{{difficulty.name}}"
           >
             {{ t("game.difficulties." ~ difficulty.name) }}
@@ -60,13 +63,17 @@
           {% endfor %}
         </div>
 
-        <button id="play-btn" class="s-click card card-play">
-          {{ t('menu.play') }}
-        </button>
+        <div class="flex flex-row gap-4">
+          <button id="play-btn" class="s-click card bg-yellow-400">
+            {{ t('menu.play') }}
+          </button>
 
-        <button id="multiplayer-btn" class="s-click card card-multiplayer">
-          {{ t('menu.multiplayer') }}
-        </button>
+          <button id="multiplayer-btn" class="s-click card bg-pink-400">
+            {{ t('menu.multiplayer') }}
+          </button>
+
+          <button id="bot-btn" class="s-click card bg-red-500">{{ t('menu.bot') }}</button>
+        </div>
       </main>
     </div>
 

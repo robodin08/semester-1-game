@@ -7,7 +7,8 @@
     "chooseTheme": "Choose Theme",
     "chooseDifficulty": "Choose Difficulty",
     "play": "Play",
-    "multiplayer": "Multiplayer"
+    "multiplayer": "Multiplayer",
+    "bot": "Bot"
   },
   "play": {
     "timer": "Time: {{ time }}",

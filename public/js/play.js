@@ -33,20 +33,20 @@ const successSound = new CreateSound({
   notifications: { error: true },
 });
 const stateSounds = {
-  win: winSound = new CreateSound({
+  win: (winSound = new CreateSound({
     src: "/assets/sounds/win.mp3",
     startAt: 0.16,
     notifications: { error: true },
-  }),
-  lose: winSound = new CreateSound({
+  })),
+  lose: (winSound = new CreateSound({
     src: "/assets/sounds/tie.mp3", // <----------------
     notifications: { error: true },
-  }),
-  tie: winSound = new CreateSound({
+  })),
+  tie: (winSound = new CreateSound({
     src: "/assets/sounds/tie.mp3",
     notifications: { error: true },
-  }),
-}
+  })),
+};
 
 const socket = io({
   auth: {
@@ -165,10 +165,11 @@ socket.on("startTimer", ({ startedAt }) => {
   stopTimer = createTimer(timerElement, startedAt);
 });
 
-socket.on("end", ({ time, user0, user1 = 0 }) => {
+socket.on("end", async ({ time, user0, user1 = 0 }) => {
   console.log("LEVEL COMPLETED");
-  fireConfettiCannon();
   stopTimer(time);
+
+  await delay(800);
 
   let state;
   if (user0 === user1) {
@@ -178,6 +179,8 @@ socket.on("end", ({ time, user0, user1 = 0 }) => {
     const didWin = isUser0 ? user0 > user1 : user1 > user0;
     state = didWin ? "win" : "lose";
   }
+
+  if (state === "win") fireConfettiCannon();
 
   showPopUp(state, time);
 

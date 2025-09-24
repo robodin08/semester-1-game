@@ -170,13 +170,18 @@ export default class Memory {
       this.last_card_index = null;
       this.is_first_flip = true;
 
-      if (isMatch) {
-        this[user].can_flip = true;
+      if (allMatched) {
+        this.can_flip = false;
       } else {
-        let newUser = (user + 1) % this.users;
-        this[newUser].can_flip = true;
-        this.current_user = newUser;
-        if (this.users > 1) event("onMove", { userGameId: newUser });
+        if (isMatch) {
+          this[user].can_flip = true;
+          if (this.users > 1) event("onMove", { userGameId: user });
+        } else {
+          let newUser = (user + 1) % this.users;
+          this[newUser].can_flip = true;
+          this.current_user = newUser;
+          if (this.users > 1) event("onMove", { userGameId: newUser });
+        }
       }
 
       return allMatched;

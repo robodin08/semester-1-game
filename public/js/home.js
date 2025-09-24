@@ -2,6 +2,7 @@ const difficultyButtons = document.querySelectorAll(".difficulty-btn");
 const themeButtons = document.querySelectorAll(".theme-btn");
 const playButton = document.getElementById("play-btn");
 const multiplayerButton = document.getElementById("multiplayer-btn");
+const botButton = document.getElementById("bot-btn");
 
 let selectedDifficulty = null;
 let selectedTheme = null;
@@ -47,4 +48,10 @@ multiplayerButton.addEventListener("click", () => {
   const params = getSelectedParams();
   if (!params) return;
   window.location.href = `/play/${params.theme}/${params.difficulty}?m`;
+});
+
+botButton.addEventListener("click", () => {
+  const params = getSelectedParams();
+  if (!params) return;
+  window.location.href = `/play/${params.theme}/${params.difficulty}?a`;
 });

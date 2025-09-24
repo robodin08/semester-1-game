@@ -7,7 +7,8 @@
     "chooseTheme": "Kies Thema",
     "chooseDifficulty": "Kies Moeilijkheidsgraad",
     "play": "Spelen",
-    "multiplayer": "Multiplayer"
+    "multiplayer": "Multiplayer",
+    "bot": "Bot"
   },
   "play": {
     "timer": "Tijd: {{ time }}",

@@ -7,18 +7,19 @@
 @source "../../views/components/languages.html";
 
 @layer components {
-  .theme-btn {
-    @apply flex flex-col items-center justify-center text-white font-bold text-lg 
+  .btn {
+    @apply flex flex-col items-center justify-center text-white font-bold
            rounded-lg aspect-square shadow-lg 
            hover:shadow-xl hover:scale-105 
            transition-transform duration-200 cursor-pointer;
   }
 
+  .theme-btn {
+    @apply text-lg;
+  }
+
   .difficulty-btn {
-    @apply flex items-center justify-center text-white font-bold text-xl 
-           rounded-lg aspect-square shadow-lg 
-           hover:shadow-xl hover:scale-105 
-           transition-transform duration-200 cursor-pointer;
+    @apply text-xl;
   }
 
   .card {
@@ -26,14 +27,6 @@
            py-4 px-12 rounded-xl shadow-lg 
            hover:shadow-xl hover:scale-105 
            transition-transform duration-200 cursor-pointer;
-  }
-
-  .card-multiplayer {
-    @apply bg-pink-400 mt-6;
-  }
-
-  .card-play {
-    @apply bg-yellow-400;
   }
 
   .selected {
