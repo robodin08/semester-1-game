@@ -3,11 +3,13 @@ class CreateSound {
     src,
     volume = 1,
     startAt = 0,
+    loop = false,
     notifications = { error: true, success: false },
   } = {}) {
     this.src = src;
     this.defaultVolume = volume;
     this.defaultStart = startAt;
+    this.defaultLoop = loop;
     this.notifications = notifications;
     this.audio = new Audio(src);
     this.audio.preload = "auto";
@@ -52,7 +54,7 @@ class CreateSound {
   play({
     volume = this.defaultVolume,
     startAt = this.defaultStart,
-    loop = false,
+    loop = this.defaultLoop,
   } = {}) {
     const soundClone = this.audio.cloneNode();
     soundClone.volume = volume;

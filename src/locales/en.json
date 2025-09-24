@@ -65,7 +65,7 @@
       },
       "sessionExpired": {
         "title": "Session Expired",
-        "body": "Your session has expired for security reasons. The page will reload shortly."
+        "body": "Your session has expired for security reasons."
       }
     },
     "sounds": {

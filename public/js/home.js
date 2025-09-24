@@ -8,18 +8,20 @@ let selectedTheme = null;
 
 difficultyButtons.forEach((button, i) => {
   button.addEventListener("click", () => {
-    // difficultyButtons.forEach((btn) => btn.classList.remove("selected"));
     difficultyButtons[selectedDifficulty]?.classList.remove("selected");
+    difficultyButtons[selectedDifficulty]?.removeAttribute("disabled");
     button.classList.add("selected");
+    button.setAttribute("disabled", "disabled");
     selectedDifficulty = i;
   });
 });
 
 themeButtons.forEach((button, i) => {
   button.addEventListener("click", () => {
-    // themeButtons.forEach((btn) => btn.classList.remove("selected"));
     themeButtons[selectedTheme]?.classList.remove("selected");
+    themeButtons[selectedTheme]?.removeAttribute("disabled");
     button.classList.add("selected");
+    button.setAttribute("disabled", "disabled");
     selectedTheme = i;
   });
 });

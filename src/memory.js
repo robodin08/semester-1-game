@@ -121,6 +121,7 @@ export default class Memory {
       this.last_card_index = cardIndex;
       this[user].can_flip = true;
       this.is_first_flip = false;
+      return false;
     } else {
       this[user].turns += 1;
 
@@ -177,6 +178,8 @@ export default class Memory {
         this.current_user = newUser;
         if (this.users > 1) event("onMove", { userGameId: newUser });
       }
+
+      return allMatched;
     }
   }
 

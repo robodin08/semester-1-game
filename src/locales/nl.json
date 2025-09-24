@@ -39,6 +39,20 @@
       "activities": "Activiteiten"
     }
   },
+  "popups": {
+    "win": {
+      "title": "🎉 Je hebt gewonnen!",
+      "message": "Gefeliciteerd! Je hebt het spel succesvol voltooid."
+    },
+    "lose": {
+      "title": "💔 Je hebt verloren!",
+      "message": "Maak je geen zorgen! Probeer het opnieuw en misschien win je de volgende keer."
+    },
+    "tie": {
+      "title": "🤝 Gelijkspel!",
+      "message": "Beide partijen presteerden even goed. Probeer het nog eens om te zien wie wint!"
+    }
+  },
   "notifications": {
     "sockets": {
       "connectionLost": {
@@ -51,7 +65,7 @@
       },
       "sessionExpired": {
         "title": "Sessie verlopen",
-        "body": "Je sessie is om veiligheidsredenen verlopen. De pagina wordt binnenkort opnieuw geladen."
+        "body": "Je sessie is om veiligheidsredenen verlopen."
       }
     },
     "sounds": {
@@ -84,7 +98,7 @@
     }
   },
   "ui": {
-    "home": "Ga naar Home"
+    "home": "Ga naar home"
   },
   "errors": {
     "http": {

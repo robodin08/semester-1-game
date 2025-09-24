@@ -15,11 +15,6 @@ function updateStats(stat, count) {
   if (el) el.textContent = t(`play.${stat}`, { count });
 }
 
-const winSound = new CreateSound({
-  src: "/assets/sounds/win.mp3",
-  startAt: 0.16,
-  notifications: { error: true },
-});
 const failFlipSound = new CreateSound({
   src: "/assets/sounds/fail_flip.mp3",
   volume: 0.4,
@@ -37,6 +32,21 @@ const successSound = new CreateSound({
   startAt: 0.056,
   notifications: { error: true },
 });
+const stateSounds = {
+  win: winSound = new CreateSound({
+    src: "/assets/sounds/win.mp3",
+    startAt: 0.16,
+    notifications: { error: true },
+  }),
+  lose: winSound = new CreateSound({
+    src: "/assets/sounds/tie.mp3", // <----------------
+    notifications: { error: true },
+  }),
+  tie: winSound = new CreateSound({
+    src: "/assets/sounds/tie.mp3",
+    notifications: { error: true },
+  }),
+}
 
 const socket = io({
   auth: {
@@ -96,8 +106,8 @@ socket.on("expired", async () => {
     body: t("notifications.sockets.sessionExpired.body"),
     type: "error",
   });
-  await delay(3000);
-  window.location.reload();
+  await delay(5000);
+  window.location.href = "/";
 });
 
 window.addEventListener("beforeunload", () => socket.off());
@@ -169,9 +179,9 @@ socket.on("end", ({ time, user0, user1 = 0 }) => {
     state = didWin ? "win" : "lose";
   }
 
-  showPopUp(state);
+  showPopUp(state, time);
 
-  winSound.play();
+  stateSounds[state].play();
 });
 
 async function onCardClick(i) {

@@ -29,7 +29,7 @@ io.on("connection", (socket) => {
 
   socket.join(gameId);
 
-  // 0 - sender; 1 - opponent; 2 both;
+  // 0 - sender; 1 - opponent; 2 - both;
   function event(eventName, data, i = 2) {
     if (i === 0) {
       socket.emit(eventName, data);
@@ -48,17 +48,20 @@ io.on("connection", (socket) => {
     event("startTimer", { startedAt: game.memory.started_at }, 0);
   }
 
-  socket.onAny(() => {
+  socket.use(([event, ...args], next) => {
     if (game._expired) {
       console.log("game expired, disconnecting socket");
       socket.emit("expired");
       socket.disconnect(true);
+      return;
     }
+    next();
   });
 
   socket.on("flip", (cardIndex, callback) => {
     try {
-      game.memory.flip(cardIndex, gameUserId, event);
+      const completed = game.memory.flip(cardIndex, gameUserId, event);
+      if (completed) game.expire();
       callback({
         success: true,
       });
@@ -108,9 +111,9 @@ app.get("/play/:gameId", (req, res) => {
     scores:
       game._maxUsers > 1
         ? {
-            user0: game.memory[gameUserId].pairs,
-            user1: game.memory[gameUserId === 0 ? 1 : 0].pairs,
-          }
+          user0: game.memory[gameUserId].pairs,
+          user1: game.memory[gameUserId === 0 ? 1 : 0].pairs,
+        }
         : null,
     global: {
       userId,
@@ -132,7 +135,7 @@ app.get("/play/:theme/:difficulty", (req, res, next) => {
     const memory = new Memory({
       difficulty,
       theme,
-      shuffle: false,
+      shuffle: true,
       users: multiplayer ? 2 : 1,
     });
 

@@ -3,23 +3,31 @@
   class="fixed inset-0 flex items-center justify-center z-50 !hidden"
 >
   <div
-    class="absolute inset-0 bg-black opacity-50 backdrop-blur-md transition-opacity duration-300"
+    class="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-500"
   ></div>
+
   <div
     id="content"
-    class="relative bg-white rounded-3xl p-10 max-w-md w-full text-center shadow-2xl transform transition-all duration-500 scale-50 opacity-0"
+    class="relative bg-amber-50/90 rounded-3xl p-8 sm:p-10 max-w-md w-full text-center shadow-2xl transform transition-all duration-500 scale-50 opacity-0 hover:scale-105"
   >
     <h2
       id="title"
-      class="text-4xl font-extrabold text-green-600 mb-4 animate-bounce"
+      class="text-4xl sm:text-5xl font-extrabold text-green-600 mb-4 animate-pulse"
     ></h2>
-    <p id="message" class="mb-6 text-gray-700 text-lg"></p>
+    <p
+      id="message"
+      class="mb-6 text-gray-700 text-lg sm:text-xl leading-relaxed"
+    ></p>
+    <p
+      id="time"
+      class="mb-6 text-sm sm:text-base text-gray-500 italic tracking-wide"
+    ></p>
     <div class="flex flex-col gap-4 md:flex-row justify-center">
       <a
         href="/"
-        class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        class="rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 px-6 py-3 sm:px-8 sm:py-4 text-base font-semibold text-white shadow-lg transition-transform duration-300 transform hover:scale-105 hover:from-indigo-600 hover:to-purple-700"
       >
-        {{ t( "ui.home" ) }}
+        {{ t("ui.home") }}
       </a>
     </div>
   </div>
