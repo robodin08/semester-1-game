@@ -12,14 +12,9 @@ function createRng(seed) {
 }
 
 function shuffleLevel(level, rng) {
-  let i = level.length,
-    j,
-    temp;
-  while (--i > 0) {
-    j = Math.floor(rng() * (i + 1));
-    temp = level[j];
-    level[j] = level[i];
-    level[i] = temp;
+  for (let i = level.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [level[i], level[j]] = [level[j], level[i]];
   }
 }
 

@@ -1,13 +1,20 @@
-function showPopUp(state = "tie", timeSpent = 0) {
+function showPopUp(state = "tie", time = 0, score) {
   const popup = document.getElementById("popup");
   const content = popup.querySelector("#content");
-  const title = popup.querySelector("#title");
-  const message = popup.querySelector("#message");
-  const time = popup.querySelector("#time");
+  const titleEl = popup.querySelector("#title");
+  const messageEl = popup.querySelector("#message");
+  const scoreEl = popup.querySelector("#score");
+  const timeEl = popup.querySelector("#time");
 
-  title.textContent = t(`popups.${state}.title`);
-  message.textContent = t(`popups.${state}.message`);
-  time.textContent = formatMMSS(timeSpent);
+  titleEl.textContent = t(`popups.${state}.title`);
+  messageEl.textContent = t(`popups.${state}.message`);
+  timeEl.textContent = formatMMSS(time);
+
+  if (score) {
+    scoreEl.textContent = score;
+  } else {
+    scoreEl.classList.add("!hidden");
+  }
 
   popup.classList.remove("!hidden");
   setTimeout(() => {

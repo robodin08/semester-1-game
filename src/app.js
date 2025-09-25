@@ -4,7 +4,7 @@ import { Server } from "socket.io";
 
 import gameManager from "./GameManager.js";
 import AiManager from "./AiManager.js";
-import Memory from "./memory.js";
+import Memory from "./Memory.js";
 import config from "./config.js";
 import createError from "./error.js";
 import middlewares from "./middlewares/index.js";
@@ -31,7 +31,7 @@ io.on("connection", (socket) => {
   socket.join(gameId);
 
   const aiManager = game.aiManager;
-  aiManager.setUserEvent(event);
+  if (aiManager) aiManager.setUserEvent(event);
 
   // 0 - sender; 1 - opponent; 2 - both;
   function event(eventName, data, i = 2) {

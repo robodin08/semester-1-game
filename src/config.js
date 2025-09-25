@@ -3,9 +3,9 @@ export default {
   game: {
     difficulties: {
       easy: { color: "bg-green-400 hover:bg-green-300", cards: 4, botIq: .4 },
-      normal: { color: "bg-blue-500 hover:bg-blue-400", cards: 16, botIq: .6 },
-      hard: { color: "bg-red-500 hover:bg-red-400", cards: 30, botIq: .65 },
-      extreme: { color: "bg-purple-800 hover:bg-purple-700", cards: 40, botIq: .75 }
+      normal: { color: "bg-blue-500 hover:bg-blue-400", cards: 16, botIq: .5 },
+      hard: { color: "bg-red-500 hover:bg-red-400", cards: 30, botIq: .6 },
+      extreme: { color: "bg-purple-800 hover:bg-purple-700", cards: 40, botIq: .7 }
     },
     themes: {
       animals: { color: "bg-teal-400 hover:bg-teal-300", items: 30 },

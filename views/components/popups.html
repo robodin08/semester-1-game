@@ -8,20 +8,30 @@
 
   <div
     id="content"
-    class="relative bg-amber-50/90 rounded-3xl p-8 sm:p-10 max-w-lg w-full text-center shadow-2xl transform transition-all duration-500 scale-50 opacity-0 hover:scale-105"
+    class="relative bg-white/90 rounded-3xl p-8 sm:p-10 max-w-lg w-full text-center shadow-2xl transform transition-all duration-500 scale-50 opacity-0 hover:scale-105"
   >
     <h2
       id="title"
       class="text-4xl sm:text-5xl font-extrabold text-green-600 mb-4 animate-pulse"
     ></h2>
+    
     <p
       id="message"
-      class="mb-6 text-gray-700 text-lg sm:text-xl leading-relaxed"
+      class="mb-4 text-gray-700 text-lg sm:text-xl leading-relaxed"
     ></p>
+
+    <div
+      id="results"
+      class="mb-6 text-gray-800 text-2xl sm:text-3xl font-bold"
+    >
+      <span id="score"></span>
+    </div>
+
     <p
       id="time"
       class="mb-6 text-sm sm:text-base text-gray-500 italic tracking-wide"
     ></p>
+
     <div class="flex flex-col gap-4 md:flex-row justify-center">
       <a
         href="/"

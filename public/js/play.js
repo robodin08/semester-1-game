@@ -164,24 +164,32 @@ socket.on("startTimer", ({ startedAt }) => {
   stopTimer = createTimer(timerElement, startedAt);
 });
 
-socket.on("end", async ({ time, user0, user1 = 0 }) => {
+socket.on("end", async ({ time, user0, user1 }) => {
   console.log("LEVEL COMPLETED");
   stopTimer(time);
 
   await delay(800);
 
+  if (user !== 0) {
+    [user0, user1] = [user1, user0];
+  }
+
+  const score = user1 !== null ? `${user0} - ${user1}` : null;
+
   let state;
-  if (user0 === user1) {
-    state = "tie";
+  if (user1) {
+    if (user0 === user1) {
+      state = "tie";
+    } else {
+      state = user0 > user1 ? "win" : "lose";
+    }
   } else {
-    const isUser0 = user === 0;
-    const didWin = isUser0 ? user0 > user1 : user1 > user0;
-    state = didWin ? "win" : "lose";
+    state = "win";
   }
 
   if (state === "win") fireConfettiCannon();
 
-  showPopUp(state, time);
+  showPopUp(state, time, score);
 
   stateSounds[state].play();
 });
