@@ -142,10 +142,8 @@ app.get("/play/:gameId", (req, res) => {
 app.get("/play/:theme/:difficulty", (req, res, next) => {
   try {
     const { theme, difficulty } = req.params;
-    const multiplayer = Object.hasOwn(req.query, "m");
-    let ai = Object.hasOwn(req.query, "a");
-
-    console.log(req.query);
+    const multiplayer = req.query.m === "";
+    let ai = req.query.a === "";
 
     if (multiplayer) ai = false;
 

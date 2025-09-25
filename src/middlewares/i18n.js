@@ -39,7 +39,7 @@ export default function (app) {
   app.use((req, res, next) => {
     res.locals.currentUrl = req.originalUrl;
 
-    const protocol = req.protocol;
+    const protocol = req.headers['x-forwarded-proto'] || req.protocol;
     const host = req.get("host");
     res.locals.baseURl = `${protocol}://${host}`;
 
