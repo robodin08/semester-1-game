@@ -22,7 +22,7 @@ Dit is mijn eerste webproject waarin ik een Memory spel heb gemaakt. Spelers kun
 3. Onthoud waar de kaarten liggen
 4. Vind alle paren om te winnen!
 
-## � Installatie
+## 📥 Installatie
 
 Je hebt [Node.js](https://nodejs.org/) nodig om dit project te draaien.
 
