@@ -4,6 +4,10 @@ function getRandomArbitrary(min, max) {
     return Math.random() * (max - min) + min;
 }
 
+function chance(i) { // 0 - 1
+    return Math.random() < i;
+}
+
 export default class AiManager {
     constructor(game, userEvent, iq = .7) {
         this.game = game;
@@ -11,15 +15,13 @@ export default class AiManager {
         this.cards = game.memory.cards;
         this.level = new Array(this.cards).fill(null);
         this.iq = iq;
-
-        console.log(this.level);
     }
 
     flip({ i, image }) {
         const filename = image.split("/").pop();
         const imageIndex = filename.split(".")[0] || image;
 
-        this.level[i] = imageIndex;
+        this.level[i] = Number(imageIndex);
     }
 
     stats({ isMatch, cardIndex, lastCardIndex }) {
@@ -29,61 +31,67 @@ export default class AiManager {
         }
     }
 
-    onMove({ count = 1, maxCount = 3 }) {
-        if (this.level.every(card => card === ".") || count > maxCount) {
+    onMove() {
+        if (this.level.every(card => card === ".")) {
             return [];
         }
 
-        const seen = {};
-        for (let i = 0; i < this.level.length; i++) {
-            const val = this.level[i];
-            if (val && val !== ".") {
-                if (seen[val] !== undefined && Math.random() < this.iq && seen[val] !== i) {
-                    return [seen[val], i];
-                } else {
-                    seen[val] = i;
-                }
-            }
-        }
-
+        const seen = new Map();
         const unknown = [];
+
         for (let i = 0; i < this.level.length; i++) {
-            if (this.level[i] === null) unknown.push(i);
+            const imageIndex = this.level[i];
+
+            if (imageIndex !== "." && imageIndex !== null) {
+                if (seen.has(imageIndex) && imageIndex === this.level[seen.get(imageIndex)] && chance(this.iq)) { // iq
+                    if (chance(.5)) {
+                        return [seen.get(imageIndex), i];
+                    } else {
+                        return [i, seen.get(imageIndex)];
+                    }
+                } else {
+                    seen.set(imageIndex, i);
+                }
+            }
+
+            if ((this.level[i] === null || chance((1 - this.iq) / 2)) && this.level[i] !== ".") { // iq
+                unknown.push(i);
+            }
         }
 
-        if (unknown.length >= 2) {
-            const first = unknown[Math.floor(Math.random() * unknown.length)];
-            let second;
-            do {
-                second = unknown[Math.floor(Math.random() * unknown.length)];
-            } while (second === first);
-
-            return [first, second];
+        if (unknown.length < 2) {
+            this.level.forEach((val, i) => {
+                if (val !== "." && !unknown.includes(i)) {
+                    unknown.push(i);
+                }
+            });
         }
 
-        if (unknown.length === 1) {
-            for (let i = 0; i < this.level.length; i++) {
-                if (i !== unknown[0] && this.level[i] !== ".") {
-                    return [unknown[0], i];
+        const first = unknown[Math.floor(Math.random() * unknown.length)];
+        let second = first;
+
+        const imageIndex = this.game.memory.level[first][0];
+
+        if (seen.has(imageIndex) && chance(this.iq)) { // iq
+            second = seen.get(imageIndex);
+        }
+
+        let attempts = 0;
+        while (second === first && attempts < unknown.length * 2) {
+            second = unknown[Math.floor(Math.random() * unknown.length)];
+            attempts++;
+        }
+
+        if (second === first) { // fallback for random
+            for (const i of unknown) {
+                if (i !== first) {
+                    second = i;
+                    break;
                 }
             }
         }
 
-        const candidates = this.level
-            .map((v, i) => (v !== "." ? i : null))
-            .filter(i => i !== null);
-
-        if (candidates.length >= 2) {
-            const first = candidates[Math.floor(Math.random() * candidates.length)];
-            let second;
-            do {
-                second = candidates[Math.floor(Math.random() * candidates.length)];
-            } while (second === first);
-
-            return [first, second];
-        }
-
-        return this.onMove({ count: count + 1, maxCount });
+        return [first, second];
     }
 
     async event(eventName, data) {
@@ -93,8 +101,6 @@ export default class AiManager {
             this.stats(data);
         } else if (eventName === "onMove" && data?.userGameId === 1) {
             const result = this.onMove();
-
-            console.log(result);
 
             if (result.length !== 2) return;
 

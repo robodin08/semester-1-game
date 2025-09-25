@@ -44,7 +44,7 @@ io.on("connection", (socket) => {
   }
 
   const ai = game.ai;
-  const aiManager = ai ? new AiManager(game, event, .7) : null;
+  const aiManager = ai ? new AiManager(game, event, .6) : null;
 
   if (game._users === game._maxUsers && !game.memory.started_at) {
     event("onMove", { userGameId: 0, isFirst: true });

@@ -62,8 +62,8 @@ socket.on("onMove", ({ userGameId, isFirst = false }) => {
   }
 
   if (userGameId === user) {
+    if (isOnMove) return;
     isOnMove = true;
-    console.log(true, "You are ON the move");
     document.body.classList.remove("!bg-gray-200");
 
     notification({
@@ -73,7 +73,6 @@ socket.on("onMove", ({ userGameId, isFirst = false }) => {
     });
   } else {
     isOnMove = false;
-    console.log(false, "You are NOT on the move");
     document.body.classList.add("!bg-gray-200");
   }
 });
