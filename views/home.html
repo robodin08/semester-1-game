@@ -12,12 +12,16 @@
     <link rel="stylesheet" href="/css/home.css" />
 
     <!-- Important Scripts -->
+    <script src="/js/libs/tailwindplus.min.js" type="module"></script>
+
     <script src="/js/components/sound.js"></script>
     <script src="/js/components/background_music.js" defer></script>
     <script src="/js/components/button_click.js" defer></script>
   </head>
 
-  <body class="bg-amber-100 p-4">
+  <body
+    class="bg-slate-900 bg-[url(/assets/images/background.jpg)] bg-center bg-cover min-h-screen p-4"
+  >
     {% include "components/languages.html" %}
 
     <div class="flex flex-col items-center">
@@ -31,7 +35,7 @@
           {{ t('menu.chooseTheme') }}
         </h2>
 
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full mb-10">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-5 w-full mb-10">
           {% for theme in themes %}
           <button
             class="s-click btn theme-btn {{theme.color}}"
@@ -52,7 +56,7 @@
           {{ t('menu.chooseDifficulty') }}
         </h2>
 
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full mb-8">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-5 w-full">
           {% for difficulty in difficulties %}
           <button
             class="s-click btn difficulty-btn {{difficulty.color}}"
@@ -63,23 +67,39 @@
           {% endfor %}
         </div>
 
-        <div class="flex flex-row gap-4">
-          <button id="play-btn" class="s-click card bg-yellow-400">
+        <div class="flex flex-row gap-4 mt-12">
+          <button
+            id="play-btn"
+            class="s-click card bg-yellow-500 hover:bg-yellow-400 text-white"
+          >
             {{ t('menu.play') }}
           </button>
 
-          <button id="multiplayer-btn" class="s-click card bg-pink-400">
+          <button
+            id="multiplayer-btn"
+            class="s-click card bg-blue-500 hover:bg-blue-400 text-white"
+          >
             {{ t('menu.multiplayer') }}
           </button>
 
-          <button id="bot-btn" class="s-click card bg-red-500">{{ t('menu.bot') }}</button>
+          <button
+            id="bot-btn"
+            class="s-click card bg-purple-500 hover:bg-purple-400 text-white"
+          >
+            {{ t('menu.bot') }}
+          </button>
         </div>
+
+        <a
+          href="/credits"
+          class="s-click credits bg-indigo-500 hover:bg-indigo-400"
+        >
+          Credits
+        </a>
       </main>
     </div>
 
     <!-- Scripts -->
-    <script src="/js/libs/tailwindplus.min.js"></script>
-
     <script src="/js/home.js"></script>
   </body>
 </html>

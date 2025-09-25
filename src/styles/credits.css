@@ -1,0 +1,5 @@
+@import "tailwindcss" source(none);
+
+@source "../../views/credits.html";
+
+@source "../../views/components/languages.html";

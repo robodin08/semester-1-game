@@ -30,21 +30,21 @@ io.on("connection", (socket) => {
 
   socket.join(gameId);
 
+  const aiManager = game.aiManager;
+  aiManager.setUserEvent(event);
+
   // 0 - sender; 1 - opponent; 2 - both;
   function event(eventName, data, i = 2) {
     if (i === 0) {
       socket.emit(eventName, data);
     } else if (i === 1) {
       socket.to(gameId).emit(eventName, data);
-      if (ai) aiManager.event(eventName, data);
+      if (aiManager) aiManager.event(eventName, data);
     } else if (i === 2) {
       io.to(gameId).emit(eventName, data);
-      if (ai) aiManager.event(eventName, data);
+      if (aiManager) aiManager.event(eventName, data);
     }
   }
-
-  const ai = game.ai;
-  const aiManager = ai ? new AiManager(game, event, .6) : null;
 
   if (game._users === game._maxUsers && !game.memory.started_at) {
     event("onMove", { userGameId: 0, isFirst: true });
@@ -101,6 +101,12 @@ app.get("/", (req, res) => {
   });
 });
 
+app.get("/credits", (req, res) => {
+  res.render("credits", {
+    credits: config.credits,
+  });
+});
+
 app.get("/play/:gameId", (req, res) => {
   const { gameId } = req.params;
 
@@ -117,9 +123,9 @@ app.get("/play/:gameId", (req, res) => {
     scores:
       game.memory.users > 1
         ? {
-          user0: game.memory[gameUserId].pairs,
-          user1: game.memory[gameUserId === 0 ? 1 : 0].pairs,
-        }
+            user0: game.memory[gameUserId].pairs,
+            user1: game.memory[gameUserId === 0 ? 1 : 0].pairs,
+          }
         : null,
     global: {
       userId,
@@ -139,6 +145,8 @@ app.get("/play/:theme/:difficulty", (req, res, next) => {
     const multiplayer = Object.hasOwn(req.query, "m");
     let ai = Object.hasOwn(req.query, "a");
 
+    console.log(req.query);
+
     if (multiplayer) ai = false;
 
     const memory = new Memory({
@@ -150,8 +158,11 @@ app.get("/play/:theme/:difficulty", (req, res, next) => {
 
     const game = {
       memory,
-      ai,
     };
+
+    if (ai) {
+      game.aiManager = new AiManager(game, config.game.difficulties[difficulty].botIq);
+    }
 
     const gameId = gameManager.createGame(game, multiplayer ? 2 : 1);
 

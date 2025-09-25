@@ -22,6 +22,18 @@
       "copyButton": "kopiëren"
     }
   },
+  "credits": {
+    "title": "Credits",
+    "description": "Dit project maakt gebruik van de volgende bronnen en bibliotheken:",
+    "resources": {
+      "css_framework": "CSS-framework",
+      "background_image": "Achtergrondafbeelding",
+      "theme_icons": "Thema-iconen",
+      "favicon": "Favicon",
+      "language_images": "Taalafbeeldingen",
+      "sounds": "Geluiden"
+    }
+  },
   "game": {
     "difficulties": {
       "easy": "Makkelijk",

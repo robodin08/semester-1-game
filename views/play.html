@@ -29,7 +29,7 @@
   {% if gameId %}
   <div
     id="multiplayer-overlay"
-    class="fixed inset-0 bg-amber-100 bg-opacity-90 flex items-center justify-center z-50 backdrop-blur-sm"
+    class="fixed inset-0 bg-slate-900 bg-[url(/assets/images/background.jpg)] bg-center bg-auto bg-opacity-90 flex items-center justify-center z-50 backdrop-blur-sm"
   >
     <div
       class="bg-white p-8 rounded-2xl text-center max-w-md mx-4 shadow-2xl transform transition-all duration-300 scale-95 hover:scale-100"
@@ -59,7 +59,9 @@
   </div>
   {% endif %}
 
-  <body class="bg-amber-100 p-4 transition-colors">
+  <body
+    class="bg-slate-900 bg-[url(/assets/images/background.jpg)] bg-center bg-cover min-h-screen p-4 transition-colors"
+  >
     {% include "components/languages.html" %} {% include
     "components/popups.html" %}
 
@@ -91,7 +93,7 @@
               class="card-inner shadow-lg duration-800 transform-3d size-full"
             >
               <div class="absolute backface-hidden size-full">
-                <img src="/assets/images/memoryCardBack.svg" />
+                <img src="/assets/images/memory-card-back.svg" />
               </div>
               <div
                 class="bg-white rotate-y-180 items-center justify-center absolute flex backface-hidden size-full"

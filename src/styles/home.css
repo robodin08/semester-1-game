@@ -24,12 +24,19 @@
 
   .card {
     @apply text-white font-extrabold text-2xl md:text-3xl 
-           py-4 px-12 rounded-xl shadow-lg 
-           hover:shadow-xl hover:scale-105 
+           py-4 px-12 rounded-xl 
+          hover:scale-105 
+           transition-transform duration-200 cursor-pointer;
+  }
+
+  .credits {
+    @apply text-white font-bold text-sm mt-8
+           py-1 px-3 rounded-md 
+          hover:scale-105 
            transition-transform duration-200 cursor-pointer;
   }
 
   .selected {
-    @apply outline-4 outline-yellow-400 cursor-default !scale-107 !shadow-xl;
+    @apply ring-4 ring-white cursor-default !scale-107;
   }
 }

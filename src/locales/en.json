@@ -22,6 +22,18 @@
       "copyButton": "Copy"
     }
   },
+  "credits": {
+    "title": "Credits",
+    "description": "This project uses the following resources and libraries:",
+    "resources": {
+      "css_framework": "CSS Framework",
+      "background_image": "Background Image",
+      "theme_icons": "Theme Icons",
+      "favicon": "Favicon",
+      "language_images": "Language Images",
+      "sounds": "Sounds"
+    }
+  },
   "game": {
     "difficulties": {
       "easy": "Easy",
