@@ -7,6 +7,13 @@
 @source "../../views/components/popups.html";
 
 @layer components {
+  .glow-turn {
+    @apply transition-shadow duration-300;
+    box-shadow: inset 0 0 40px rgba(99, 102, 241, 0.6),
+      inset 0 0 80px rgba(139, 92, 246, 0.5);
+    animation: glowPulse 2s ease-in-out infinite;
+  }
+
   .grid-4 {
     grid-template-columns: repeat(2, 18rem);
     grid-template-rows: repeat(2, 18rem);
@@ -37,5 +44,17 @@
 
   .card-flip .card-inner {
     @apply cursor-default rotate-y-180;
+  }
+}
+
+@keyframes glowPulse {
+  0%,
+  100% {
+    box-shadow: inset 0 0 40px rgba(99, 102, 241, 0.6),
+      inset 0 0 80px rgba(139, 92, 246, 0.5);
+  }
+  50% {
+    box-shadow: inset 0 0 60px rgba(139, 92, 246, 0.7),
+      inset 0 0 100px rgba(99, 102, 241, 0.7);
   }
 }

@@ -19,25 +19,6 @@ export default {
     }
   },
 
-  //   game: {
-  //   difficulties: {
-  //     easy: { color: "bg-", cards: 4 },
-  //     normal: { color: "bg-", cards: 16 },
-  //     hard: { color: "bg-", cards: 30 },
-  //     extreme: { color: "bg-", cards: 40 },
-  //   },
-  //   themes: {
-  //     animals: { color: "bg-", items: 30 },
-  //     faces: { color: "bg-", items: 30 },
-  //     food: { color: "bg-", items: 30 },
-  //     objects: { color: "bg-", items: 30 },
-  //     plants: { color: "bg-", items: 30 },
-  //     symbols: { color: "bg-", items: 30 },
-  //     vehicles: { color: "bg-", items: 30 },
-  //     activities: { color: "bg-", items: 30 },
-  //   },
-  // },
-
   credits: {
     css_framework: "https://tailwindcss.com",
     background_image:

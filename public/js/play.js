@@ -54,17 +54,19 @@ const socket = io({
   },
 });
 
-socket.on("onMove", ({ userGameId, isFirst = false }) => {
+socket.on("onMove", async ({ userGameId, isFirst = false }) => {
   console.log(userGameId, user);
 
   if (isFirst) {
     multiplayerOverlay?.classList.add("!hidden");
   }
 
+  await delay(800);
+
   if (userGameId === user) {
     if (isOnMove) return;
     isOnMove = true;
-    document.body.classList.remove("!bg-gray-200");
+    document.body.classList.add("glow-turn");
 
     notification({
       title: t("notifications.cardClick.onMove.title"),
@@ -73,7 +75,7 @@ socket.on("onMove", ({ userGameId, isFirst = false }) => {
     });
   } else {
     isOnMove = false;
-    document.body.classList.add("!bg-gray-200");
+    document.body.classList.remove("glow-turn");
   }
 });
 
