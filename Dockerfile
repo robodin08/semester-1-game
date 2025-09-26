@@ -18,7 +18,7 @@ COPY --chown=app:app . ./
 # Switch to non-root user
 USER app
 
-RUN ["npm", "run", "build:tailwind"]
+RUN ["npm", "run", "build"]
 
 # Expose port
 EXPOSE 3000

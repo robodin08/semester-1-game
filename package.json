@@ -3,7 +3,7 @@
     "start": "node src/app.js",
     "dev": "nodemon",
     "format": "npx prettier --write .",
-    "build:tailwind": "run-p build:tailwind:*",
+    "build": "run-p build:**",
     "build:tailwind:home": "tailwindcss -i src/styles/home.css -o public/css/home.css --minify",
     "build:tailwind:play": "tailwindcss -i src/styles/play.css -o public/css/play.css --minify",
     "build:tailwind:error": "tailwindcss -i src/styles/error.css -o public/css/error.css --minify",

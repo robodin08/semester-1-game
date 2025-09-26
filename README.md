@@ -30,7 +30,7 @@ Je hebt [Node.js](https://nodejs.org/) nodig om dit project te draaien.
 git clone https://github.com/robodin08/semester-1-game.git
 cd semester-1-game
 npm ci
-npm run build:tailwind
+npm run build
 npm start
 ```
 
