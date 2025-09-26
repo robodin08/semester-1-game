@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ locale }}">
+<html class="bg-slate-950" lang="{{ locale }}">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -29,7 +29,7 @@
   {% if gameId %}
   <div
     id="multiplayer-overlay"
-     class="fixed inset-0 bg-slate-900 bg-[url(/assets/images/background.jpg)] bg-center bg-cover flex items-center justify-center z-5"
+     class="fixed inset-0 bg-[url(/assets/images/background.jpg)] bg-center bg-cover flex items-center justify-center z-5"
  >
     <div
       class="bg-white p-8 rounded-2xl text-center max-w-md mx-4 shadow-2xl transform transition-all duration-300 scale-95 hover:scale-100"
@@ -60,7 +60,7 @@
   {% endif %}
 
   <body
-    class="bg-slate-900 bg-[url(/assets/images/background.jpg)] bg-center bg-cover min-h-screen p-4"
+    class="bg-[url(/assets/images/background.jpg)] bg-center bg-cover min-h-screen p-4"
   >
     {% include "components/languages.html" %} {% include
     "components/popups.html" %}

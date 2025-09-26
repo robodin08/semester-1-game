@@ -24,7 +24,7 @@
 
   .card {
     @apply text-white font-extrabold text-2xl md:text-3xl 
-           py-4 px-12 rounded-xl 
+           py-3 px-8 rounded-xl 
           hover:scale-105 
            transition-transform duration-200 cursor-pointer;
   }
