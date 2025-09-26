@@ -1,0 +1,132 @@
+{
+  "info": {
+    "name": "Polski",
+    "language": "Język"
+  },
+  "menu": {
+    "chooseTheme": "Wybierz motyw",
+    "chooseDifficulty": "Wybierz poziom trudności",
+    "play": "Graj",
+    "multiplayer": "Wieloosobowy",
+    "bot": "Bot"
+  },
+  "play": {
+    "timer": "Czas: {{ time }}",
+    "pairs": "Pary: {{ count }}",
+    "turns": "Tury: {{ count }}",
+    "you": "Ty: {{ count }}",
+    "opponent": "Przeciwnik: {{ count }}",
+    "multiplayer": {
+      "title": "Oczekiwanie na przeciwnika",
+      "description": "Udostępnij ten link komuś, aby rozpocząć grę:",
+      "copyButton": "Kopiuj"
+    }
+  },
+  "credits": {
+    "title": "Podziękowania",
+    "description": "Ten projekt korzysta z następujących zasobów i bibliotek:",
+    "resources": {
+      "css_framework": "Framework CSS",
+      "background_image": "Obraz tła",
+      "theme_icons": "Ikony motywu",
+      "favicon": "Favicon",
+      "language_images": "Obrazy języków",
+      "sounds": "Dźwięki"
+    }
+  },
+  "game": {
+    "difficulties": {
+      "easy": "Łatwy",
+      "normal": "Normalny",
+      "hard": "Trudny",
+      "extreme": "Ekstremalny"
+    },
+    "themes": {
+      "animals": "Zwierzęta",
+      "faces": "Twarze",
+      "food": "Jedzenie",
+      "objects": "Przedmioty",
+      "plants": "Rośliny",
+      "symbols": "Symbole",
+      "vehicles": "Pojazdy",
+      "activities": "Aktywności"
+    }
+  },
+  "popups": {
+    "win": {
+      "title": "🎉 Wygrałeś!",
+      "message": "Gratulacje! Pomyślnie ukończyłeś grę."
+    },
+    "lose": {
+      "title": "💔 Przegrałeś!",
+      "message": "Nie martw się! Spróbuj ponownie, może następnym razem wygrasz."
+    },
+    "tie": {
+      "title": "🤝 Remis!",
+      "message": "Obie strony zagrały równie dobrze. Spróbuj ponownie, aby zobaczyć kto wygra!"
+    }
+  },
+  "notifications": {
+    "sockets": {
+      "connectionLost": {
+        "title": "Połączenie utracone",
+        "body": "Utracono połączenie z serwerem. Sprawdź połączenie internetowe lub spróbuj połączyć się ponownie."
+      },
+      "reconnected": {
+        "title": "Połączono ponownie",
+        "body": "Połączenie z serwerem zostało przywrócone. Możesz kontynuować grę."
+      },
+      "sessionExpired": {
+        "title": "Sesja wygasła",
+        "body": "Twoja sesja wygasła ze względów bezpieczeństwa."
+      }
+    },
+    "sounds": {
+      "loaded": {
+        "title": "Sukces",
+        "body": "Dźwięk załadowany: {{ url }}"
+      },
+      "failed": {
+        "title": "Błąd",
+        "body": "Nie udało się załadować dźwięku: {{ url }}"
+      }
+    },
+    "cardClick": {
+      "connectionError": {
+        "title": "Błąd połączenia",
+        "body": "Nie można komunikować się z serwerem. Spróbuj ponownie."
+      },
+      "noResponse": {
+        "title": "Brak odpowiedzi",
+        "body": "Serwer nie odpowiedział. Spróbuj ponownie."
+      },
+      "notOnMove": {
+        "title": "Nie twoja kolej",
+        "body": "Musisz poczekać, aż przeciwnik wykona ruch."
+      },
+      "onMove": {
+        "title": "Twoja kolej!",
+        "body": "Twój ruch. Wybierz kartę i zagraj!"
+      }
+    }
+  },
+  "ui": {
+    "home": "Idź do domu"
+  },
+  "errors": {
+    "http": {
+      "400": "Błędne żądanie",
+      "401": "Nieautoryzowany",
+      "403": "Zabronione",
+      "404": "Strona nie znaleziona",
+      "405": "Metoda niedozwolona",
+      "409": "Konflikt",
+      "422": "Nieprzetwarzalna jednostka",
+      "429": "Zbyt wiele żądań",
+      "500": "Wewnętrzny błąd serwera",
+      "502": "Zła brama",
+      "503": "Usługa niedostępna",
+      "504": "Przekroczenie czasu bramy"
+    }
+  }
+}

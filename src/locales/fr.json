@@ -1,0 +1,132 @@
+{
+  "info": {
+    "name": "Français",
+    "language": "Langue"
+  },
+  "menu": {
+    "chooseTheme": "Choisir le thème",
+    "chooseDifficulty": "Choisir la difficulté",
+    "play": "Jouer",
+    "multiplayer": "Multijoueur",
+    "bot": "Bot"
+  },
+  "play": {
+    "timer": "Temps : {{ time }}",
+    "pairs": "Paires : {{ count }}",
+    "turns": "Tours : {{ count }}",
+    "you": "Vous : {{ count }}",
+    "opponent": "Adversaire : {{ count }}",
+    "multiplayer": {
+      "title": "En attente d'un adversaire",
+      "description": "Partagez ce lien avec quelqu'un pour commencer à jouer :",
+      "copyButton": "Copier"
+    }
+  },
+  "credits": {
+    "title": "Crédits",
+    "description": "Ce projet utilise les ressources et bibliothèques suivantes :",
+    "resources": {
+      "css_framework": "Framework CSS",
+      "background_image": "Image de fond",
+      "theme_icons": "Icônes de thème",
+      "favicon": "Favicon",
+      "language_images": "Images de langue",
+      "sounds": "Sons"
+    }
+  },
+  "game": {
+    "difficulties": {
+      "easy": "Facile",
+      "normal": "Normal",
+      "hard": "Difficile",
+      "extreme": "Extrême"
+    },
+    "themes": {
+      "animals": "Animaux",
+      "faces": "Visages",
+      "food": "Nourriture",
+      "objects": "Objets",
+      "plants": "Plantes",
+      "symbols": "Symboles",
+      "vehicles": "Véhicules",
+      "activities": "Activités"
+    }
+  },
+  "popups": {
+    "win": {
+      "title": "🎉 Vous avez gagné !",
+      "message": "Félicitations ! Vous avez terminé le jeu avec succès."
+    },
+    "lose": {
+      "title": "💔 Vous avez perdu !",
+      "message": "Ne vous inquiétez pas ! Réessayez et vous gagnerez peut-être la prochaine fois."
+    },
+    "tie": {
+      "title": "🤝 Match nul !",
+      "message": "Les deux côtés ont joué de manière égale. Réessayez pour voir qui gagne !"
+    }
+  },
+  "notifications": {
+    "sockets": {
+      "connectionLost": {
+        "title": "Connexion perdue",
+        "body": "Vous avez perdu la connexion au serveur. Veuillez vérifier votre connexion internet ou essayer de vous reconnecter."
+      },
+      "reconnected": {
+        "title": "Reconnecté",
+        "body": "Votre connexion au serveur a été rétablie. Vous pouvez continuer à jouer."
+      },
+      "sessionExpired": {
+        "title": "Session expirée",
+        "body": "Votre session a expiré pour des raisons de sécurité."
+      }
+    },
+    "sounds": {
+      "loaded": {
+        "title": "Succès",
+        "body": "Son chargé : {{ url }}."
+      },
+      "failed": {
+        "title": "Erreur",
+        "body": "Échec du chargement du son : {{ url }}."
+      }
+    },
+    "cardClick": {
+      "connectionError": {
+        "title": "Erreur de connexion",
+        "body": "Impossible de communiquer avec le serveur. Veuillez réessayer."
+      },
+      "noResponse": {
+        "title": "Aucune réponse",
+        "body": "Le serveur n'a pas répondu. Veuillez réessayer."
+      },
+      "notOnMove": {
+        "title": "Pas votre tour",
+        "body": "Vous devez attendre que votre adversaire joue."
+      },
+      "onMove": {
+        "title": "Votre tour !",
+        "body": "C'est votre tour. Choisissez une carte et jouez !"
+      }
+    }
+  },
+  "ui": {
+    "home": "Accueil"
+  },
+  "errors": {
+    "http": {
+      "400": "Requête incorrecte",
+      "401": "Non autorisé",
+      "403": "Interdit",
+      "404": "Page non trouvée",
+      "405": "Méthode non autorisée",
+      "409": "Conflit",
+      "422": "Entité non traitable",
+      "429": "Trop de requêtes",
+      "500": "Erreur interne du serveur",
+      "502": "Passerelle incorrecte",
+      "503": "Service indisponible",
+      "504": "Délai d'attente de la passerelle"
+    }
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "info": {
+    "name": "Deutsch",
+    "language": "Sprache"
+  },
+  "menu": {
+    "chooseTheme": "Thema wählen",
+    "chooseDifficulty": "Schwierigkeit wählen",
+    "play": "Spielen",
+    "multiplayer": "Mehrspieler",
+    "bot": "Bot"
+  },
+  "play": {
+    "timer": "Zeit: {{ time }}",
+    "pairs": "Paare: {{ count }}",
+    "turns": "Züge: {{ count }}",
+    "you": "Du: {{ count }}",
+    "opponent": "Gegner: {{ count }}",
+    "multiplayer": {
+      "title": "Warten auf einen Gegner",
+      "description": "Teile diesen Link mit jemandem, um zu spielen:",
+      "copyButton": "Kopieren"
+    }
+  },
+  "credits": {
+    "title": "Credits",
+    "description": "Dieses Projekt verwendet die folgenden Ressourcen und Bibliotheken:",
+    "resources": {
+      "css_framework": "CSS-Framework",
+      "background_image": "Hintergrundbild",
+      "theme_icons": "Thema-Icons",
+      "favicon": "Favicon",
+      "language_images": "Sprachbilder",
+      "sounds": "Sounds"
+    }
+  },
+  "game": {
+    "difficulties": {
+      "easy": "Einfach",
+      "normal": "Normal",
+      "hard": "Schwer",
+      "extreme": "Extrem"
+    },
+    "themes": {
+      "animals": "Tiere",
+      "faces": "Gesichter",
+      "food": "Essen",
+      "objects": "Objekte",
+      "plants": "Pflanzen",
+      "symbols": "Symbole",
+      "vehicles": "Fahrzeuge",
+      "activities": "Aktivitäten"
+    }
+  },
+  "popups": {
+    "win": {
+      "title": "🎉 Du hast gewonnen!",
+      "message": "Herzlichen Glückwunsch! Du hast das Spiel erfolgreich abgeschlossen."
+    },
+    "lose": {
+      "title": "💔 Du hast verloren!",
+      "message": "Keine Sorge! Versuche es erneut und du gewinnst vielleicht das nächste Mal."
+    },
+    "tie": {
+      "title": "🤝 Unentschieden!",
+      "message": "Beide Seiten haben gleich gut gespielt. Versuche es erneut, um zu sehen, wer gewinnt!"
+    }
+  },
+  "notifications": {
+    "sockets": {
+      "connectionLost": {
+        "title": "Verbindung verloren",
+        "body": "Du hast die Verbindung zum Server verloren. Bitte überprüfe dein Internet oder versuche, die Verbindung wiederherzustellen."
+      },
+      "reconnected": {
+        "title": "Wieder verbunden",
+        "body": "Deine Verbindung zum Server wurde wiederhergestellt. Du kannst weiterspielen."
+      },
+      "sessionExpired": {
+        "title": "Sitzung abgelaufen",
+        "body": "Deine Sitzung ist aus Sicherheitsgründen abgelaufen."
+      }
+    },
+    "sounds": {
+      "loaded": {
+        "title": "Erfolg",
+        "body": "Sound geladen: {{ url }}."
+      },
+      "failed": {
+        "title": "Fehler",
+        "body": "Fehler beim Laden des Sounds: {{ url }}."
+      }
+    },
+    "cardClick": {
+      "connectionError": {
+        "title": "Verbindungsfehler",
+        "body": "Konnte nicht mit dem Server kommunizieren. Bitte versuche es erneut."
+      },
+      "noResponse": {
+        "title": "Keine Antwort",
+        "body": "Der Server hat nicht geantwortet. Bitte versuche es erneut."
+      },
+      "notOnMove": {
+        "title": "Nicht dein Zug",
+        "body": "Du musst warten, bis dein Gegner einen Zug macht."
+      },
+      "onMove": {
+        "title": "Du bist dran!",
+        "body": "Du bist am Zug. Wähle eine Karte und mache deinen Spielzug!"
+      }
+    }
+  },
+  "ui": {
+    "home": "Nach Hause"
+  },
+  "errors": {
+    "http": {
+      "400": "Ungültige Anfrage",
+      "401": "Nicht autorisiert",
+      "403": "Verboten",
+      "404": "Seite nicht gefunden",
+      "405": "Methode nicht erlaubt",
+      "409": "Konflikt",
+      "422": "Nicht verarbeitbare Entität",
+      "429": "Zu viele Anfragen",
+      "500": "Interner Serverfehler",
+      "502": "Bad Gateway",
+      "503": "Service nicht verfügbar",
+      "504": "Gateway-Timeout"
+    }
+  }
+}
